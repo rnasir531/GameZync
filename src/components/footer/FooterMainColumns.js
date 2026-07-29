@@ -27,10 +27,11 @@ export default function FooterMainColumns({ settings }) {
                 fontFamily: 'var(--font-jakarta), var(--font-inter), sans-serif',
                 display: 'inline-flex',
                 alignItems: 'center',
-                lineHeight: '1'
+                lineHeight: '1',
+                gap: '3px'
               }}
             >
-              <span style={{ color: 'var(--text-color)' }}>GAME</span>
+              <span style={{ color: 'var(--text-color)' }}>GAMERS</span>
               <span style={{ 
                 background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
                 WebkitBackgroundClip: 'text',
@@ -38,7 +39,7 @@ export default function FooterMainColumns({ settings }) {
                 fontWeight: '900',
                 filter: 'drop-shadow(0 0 12px rgba(16, 185, 129, 0.4))'
               }}>
-                ZYNC
+                CAFE
               </span>
             </span>
           </div>

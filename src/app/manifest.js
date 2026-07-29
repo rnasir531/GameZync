@@ -1,7 +1,7 @@
 export default function manifest() {
   return {
-    name: 'GameZync - Ultimate Gaming Platform',
-    short_name: 'GameZync',
+    name: 'Gamers Cafe - Ultimate Gaming Platform',
+    short_name: 'Gamers Cafe',
     description: 'The ultimate PC gaming platform. Sync your hardware specs, play instant web games, and download PC titles.',
     start_url: '/',
     display: 'standalone',
