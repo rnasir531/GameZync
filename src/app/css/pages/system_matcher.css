@@ -451,3 +451,21 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 14px var(--primary-glow);
 }
+
+@media (max-width: 768px) {
+    #system-matcher-view {
+        margin-bottom: 0px !important;
+        padding-bottom: 0px !important;
+        min-height: auto !important;
+    }
+    .scanner-console {
+        margin-bottom: 0px !important;
+    }
+    .matcher-hero {
+        margin-bottom: 12px !important;
+        padding: 10px 8px !important;
+    }
+    .site-footer {
+        margin-top: 15px !important;
+    }
+}

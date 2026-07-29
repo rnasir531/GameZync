@@ -24,7 +24,7 @@ export default async function HighEndGames() {
         subtitle="Requires 8GB+ RAM & Dedicated GPU"
         icon="fa-solid fa-desktop"
         games={highEndGames}
-        showSwitcher={true}
+        showSwitcher={false}
         viewAllLink="/high-end"
       />
     );

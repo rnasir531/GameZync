@@ -24,7 +24,7 @@ export default async function LowEndGames() {
         subtitle="Runs Smoothly on 2GB - 6GB RAM"
         icon="fa-solid fa-laptop"
         games={lowEndGames}
-        showSwitcher={true}
+        showSwitcher={false}
         viewAllLink="/low-end"
       />
     );

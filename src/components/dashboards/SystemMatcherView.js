@@ -119,18 +119,18 @@ export default function SystemMatcherView({ allGames }) {
   };
 
   return (
-    <div className="static-page-container" id="system-matcher-view" style={{ paddingBottom: '10px', animation: 'fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)' }}>
-      <div className="matcher-hero" style={{ marginBottom: '20px' }}>
-        <h2 style={{ fontWeight: 800, marginBottom: '6px', color: 'var(--text-color)' }}>
+    <div className="static-page-container" id="system-matcher-view" style={{ minHeight: 'auto', paddingBottom: '0px', marginBottom: '0px', animation: 'fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)' }}>
+      <div className="matcher-hero" style={{ marginBottom: '12px' }}>
+        <h2 style={{ fontWeight: 800, marginBottom: '4px', color: 'var(--text-color)' }}>
           <i className="fa-solid fa-microchip" style={{ color: 'var(--primary-color)' }}></i> Can I Run It?
         </h2>
-        <p style={{ fontSize: '0.95rem', color: 'var(--text-color)', opacity: 0.7, margin: 0 }}>
+        <p style={{ fontSize: '0.9rem', color: 'var(--text-color)', opacity: 0.7, margin: 0 }}>
           Check if games will run smoothly on your PC.
         </p>
       </div>
 
       {/* SPECS FORM (SINGLE UNIFIED CARD CONTAINER) */}
-      <div style={{ maxWidth: '840px', margin: '0 auto 20px' }}>
+      <div style={{ maxWidth: '840px', margin: '0 auto 0px' }}>
         <SystemSpecsForm 
           scanState={scanState}
           specs={specs}
@@ -141,10 +141,12 @@ export default function SystemMatcherView({ allGames }) {
         />
       </div>
 
-      {/* MATCH RESULTS GRID (FULL 100% PAGE WIDTH) */}
-      <div style={{ width: '100%', marginBottom: '20px' }}>
-        <MatchResultsList matchedGames={matchedGames} />
-      </div>
+      {/* MATCH RESULTS GRID */}
+      {matchedGames && (
+        <div style={{ width: '100%', marginTop: '16px', marginBottom: '16px' }}>
+          <MatchResultsList matchedGames={matchedGames} />
+        </div>
+      )}
     </div>
   );
 }
