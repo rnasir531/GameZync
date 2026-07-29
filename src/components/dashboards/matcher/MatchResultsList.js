@@ -28,18 +28,40 @@ export default function MatchResultsList({ matchedGames }) {
   };
 
   return (
-    <div id="matcherResultsContainer" style={{ marginTop: '40px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', paddingBottom: '15px', borderBottom: '1px solid var(--border-color)' }}>
-        <h4 id="matcherResultsTitle" style={{ margin: 0, fontWeight: 'bold', fontSize: '1.5rem', color: 'var(--text-color)' }}>
+    <div id="matcherResultsContainer" style={{ marginTop: '30px' }}>
+      <div 
+        style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          flexWrap: 'wrap', 
+          gap: '10px', 
+          marginBottom: '20px', 
+          paddingBottom: '14px', 
+          borderBottom: '1px solid var(--border-color)' 
+        }}
+      >
+        <h4 
+          id="matcherResultsTitle" 
+          style={{ 
+            margin: 0, 
+            fontWeight: '800', 
+            fontSize: 'clamp(1.05rem, 4vw, 1.35rem)', 
+            color: 'var(--text-color)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}
+        >
           {matchedGames.length > 0 ? (
-            <><i className="fa-solid fa-check-circle text-success me-2"></i> Found {matchedGames.length} playable games:</>
+            <><i className="fa-solid fa-circle-check" style={{ color: '#10b981' }}></i> Found {matchedGames.length} Playable Games</>
           ) : (
-            <><i className="fa-solid fa-circle-xmark text-danger me-2"></i> No matching games found</>
+            <><i className="fa-solid fa-circle-xmark text-danger"></i> No Matching Games Found</>
           )}
         </h4>
 
         {totalPages > 1 && (
-          <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600' }}>
+          <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: '600', opacity: 0.9 }}>
             Page {currentPage} of {totalPages} ({matchedGames.length} Total)
           </span>
         )}

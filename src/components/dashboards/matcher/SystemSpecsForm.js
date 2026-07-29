@@ -23,62 +23,67 @@ export default function SystemSpecsForm({
     setShowMobileModal(true);
   };
 
-  // MOBILE VIEW: CLEAN CARD + CYBER POPUP MODAL (NO SPECS LIST OR DETECTED PANEL)
+  // MOBILE VIEW: 1 SINGLE UNIFIED SLEEK CARD (NO BOX INSIDE BOX!)
   if (isMobile) {
     return (
       <div id="systemMatcherFormMobile">
-        <div id="matcherEmptyState" className="scanner-console" style={{ padding: '30px 20px', borderRadius: '20px' }}>
-          <div className="scanner-content" style={{ textAlign: 'center' }}>
-            <div 
-              className="scanner-ring" 
-              style={{
-                width: '64px',
-                height: '64px',
-                margin: '0 auto 16px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%)',
-                border: '1.5px solid rgba(16, 185, 129, 0.4)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '26px',
-                color: '#10b981',
-                boxShadow: '0 0 20px rgba(16, 185, 129, 0.2)'
-              }}
-            >
-              <i className="fa-solid fa-laptop"></i>
-            </div>
-            
-            <h4 className="scanner-title" style={{ fontWeight: 800, fontSize: '1.25rem', marginBottom: '8px', color: 'var(--text-color)' }}>
-              PC Hardware Scanner
-            </h4>
-            
-            <p className="scanner-text" style={{ fontSize: '13.5px', color: 'var(--text-muted)', marginBottom: '20px', lineHeight: '1.5' }}>
-              System Matcher tests PC hardware specs to recommend compatible PC games.
-            </p>
-
-            <button 
-              type="button" 
-              className="scanner-btn" 
-              onClick={onMobileScanClick}
-              style={{
-                background: '#10b981',
-                color: '#ffffff',
-                fontWeight: '800',
-                fontSize: '13.5px',
-                borderRadius: '14px',
-                padding: '12px 24px',
-                border: 'none',
-                boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
-              <i className="fa-solid fa-radar"></i> INITIATE PC SCAN
-            </button>
+        <div 
+          style={{ 
+            background: 'var(--card-bg)',
+            border: '1px solid var(--border-color)',
+            borderRadius: '20px',
+            padding: '28px 20px',
+            textAlign: 'center',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)'
+          }}
+        >
+          <div 
+            style={{
+              width: '64px',
+              height: '64px',
+              margin: '0 auto 16px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%)',
+              border: '1.5px solid rgba(16, 185, 129, 0.4)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '26px',
+              color: '#10b981',
+              boxShadow: '0 0 20px rgba(16, 185, 129, 0.2)'
+            }}
+          >
+            <i className="fa-solid fa-laptop"></i>
           </div>
+          
+          <h4 style={{ fontWeight: 800, fontSize: '1.25rem', marginBottom: '8px', color: 'var(--text-color)', fontFamily: 'var(--font-heading)' }}>
+            PC Hardware Scanner
+          </h4>
+          
+          <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', marginBottom: '22px', lineHeight: '1.5', maxWidth: '300px', margin: '0 auto 22px' }}>
+            System Matcher tests PC hardware specs to recommend compatible PC games.
+          </p>
+
+          <button 
+            type="button" 
+            onClick={onMobileScanClick}
+            style={{
+              background: '#10b981',
+              color: '#ffffff',
+              fontWeight: '800',
+              fontSize: '13.5px',
+              borderRadius: '14px',
+              padding: '12px 28px',
+              border: 'none',
+              boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+          >
+            <i className="fa-solid fa-radar"></i> INITIATE PC SCAN
+          </button>
         </div>
 
         {/* CUSTOM ULTRA-SLEEK CYBER POPUP MODAL FOR MOBILE */}

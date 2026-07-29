@@ -119,9 +119,9 @@ export default function SystemMatcherView({ allGames }) {
   };
 
   return (
-    <div className="static-page-container" id="system-matcher-view" style={{ animation: 'fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)' }}>
-      <div className="matcher-hero">
-        <h2 style={{ fontWeight: 800, marginBottom: '8px', color: 'var(--text-color)' }}>
+    <div className="static-page-container" id="system-matcher-view" style={{ paddingBottom: '10px', animation: 'fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)' }}>
+      <div className="matcher-hero" style={{ marginBottom: '20px' }}>
+        <h2 style={{ fontWeight: 800, marginBottom: '6px', color: 'var(--text-color)' }}>
           <i className="fa-solid fa-microchip" style={{ color: 'var(--primary-color)' }}></i> Can I Run It?
         </h2>
         <p style={{ fontSize: '0.95rem', color: 'var(--text-color)', opacity: 0.7, margin: 0 }}>
@@ -129,22 +129,20 @@ export default function SystemMatcherView({ allGames }) {
         </p>
       </div>
 
-      {/* SPECS FORM (CENTERED 840PX) */}
-      <div style={{ maxWidth: '840px', margin: '0 auto 40px' }}>
-        <div className="matcher-card">
-          <SystemSpecsForm 
-            scanState={scanState}
-            specs={specs}
-            isFinding={isFinding}
-            handleScan={handleScan}
-            rescan={rescan}
-            findGames={findGames}
-          />
-        </div>
+      {/* SPECS FORM (SINGLE UNIFIED CARD CONTAINER) */}
+      <div style={{ maxWidth: '840px', margin: '0 auto 20px' }}>
+        <SystemSpecsForm 
+          scanState={scanState}
+          specs={specs}
+          isFinding={isFinding}
+          handleScan={handleScan}
+          rescan={rescan}
+          findGames={findGames}
+        />
       </div>
 
       {/* MATCH RESULTS GRID (FULL 100% PAGE WIDTH) */}
-      <div style={{ width: '100%', marginBottom: '40px' }}>
+      <div style={{ width: '100%', marginBottom: '20px' }}>
         <MatchResultsList matchedGames={matchedGames} />
       </div>
     </div>
