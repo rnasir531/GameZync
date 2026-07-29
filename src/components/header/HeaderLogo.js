@@ -14,11 +14,11 @@ export default function HeaderLogo({ settings }) {
         flexShrink: 0 
       }}
     >
-      {/* Sleek Cyber Border Badge Container */}
+      {/* Sleek Adaptive Theme Badge Container */}
       <div className="header-logo-badge">
         <span className="logo-brand-text">
-          <span style={{ color: '#ffffff', textShadow: '0 0 10px rgba(255,255,255,0.4)' }}>GAME</span>
-          <span style={{ color: '#10b981', textShadow: '0 0 12px rgba(16, 185, 129, 0.6)' }}>ZYNC</span>
+          <span style={{ color: 'var(--text-color)', fontWeight: '900' }}>GAME</span>
+          <span style={{ color: '#10b981', fontWeight: '900', filter: 'drop-shadow(0 0 8px rgba(16, 185, 129, 0.4))' }}>ZYNC</span>
         </span>
       </div>
     </Link>
