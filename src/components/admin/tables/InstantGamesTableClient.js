@@ -12,6 +12,9 @@ const thStyle = {
 export default function InstantGamesTableClient({ instantGames = [], categories = [] }) {
   const [gamesList, setGamesList] = useState(instantGames);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedSource, setSelectedSource] = useState('ALL');
+  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [sortBy, setSortBy] = useState('newest');
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, id: null });
@@ -19,6 +22,10 @@ export default function InstantGamesTableClient({ instantGames = [], categories 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(15);
+
+  // Dynamic Sources and Categories for filter dropdowns
+  const availableSources = Array.from(new Set(gamesList.map(g => g.source).filter(Boolean))).sort();
+  const availableCategories = Array.from(new Set(gamesList.map(g => g.category).filter(Boolean))).sort();
 
   // ── Form State ───────────────────────────────────────────────────
   const [formData, setFormData] = useState({
@@ -36,15 +43,35 @@ export default function InstantGamesTableClient({ instantGames = [], categories 
     }));
   };
 
-  // Reset page when search changes
+  // Reset page when search or filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm]);
+  }, [searchTerm, selectedSource, selectedCategory, sortBy]);
 
   // ── Filtering ────────────────────────────────────────────────────
-  const filteredGames = gamesList.filter(game =>
-    (game.title || '').toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredGames = gamesList.filter(game => {
+    const matchesSearch = (game.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          (game.description || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSource = selectedSource === 'ALL' || (game.source || 'Other').toLowerCase() === selectedSource.toLowerCase();
+    const matchesCategory = selectedCategory === 'ALL' || (game.category || 'Arcade').toLowerCase() === selectedCategory.toLowerCase();
+
+    return matchesSearch && matchesSource && matchesCategory;
+  }).sort((a, b) => {
+    if (sortBy === 'newest') return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+    if (sortBy === 'oldest') return new Date(a.created_at || 0) - new Date(b.created_at || 0);
+    if (sortBy === 'title_asc') return (a.title || '').localeCompare(b.title || '');
+    if (sortBy === 'title_desc') return (b.title || '').localeCompare(a.title || '');
+    return 0;
+  });
+
+  const hasActiveFilters = searchTerm !== '' || selectedSource !== 'ALL' || selectedCategory !== 'ALL' || sortBy !== 'newest';
+
+  const resetFilters = () => {
+    setSearchTerm('');
+    setSelectedSource('ALL');
+    setSelectedCategory('ALL');
+    setSortBy('newest');
+  };
 
   // ── Pagination Math ──────────────────────────────────────────────
   const totalPages = Math.ceil(filteredGames.length / itemsPerPage) || 1;
@@ -120,7 +147,7 @@ export default function InstantGamesTableClient({ instantGames = [], categories 
           <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(245,158,11,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f59e0b' }}>
             <i className="fa-solid fa-bolt-lightning"></i>
           </div>
-          Instant Games List ({gamesList.length})
+          Instant Games List ({filteredGames.length} / {gamesList.length})
         </h4>
         <button onClick={() => { resetForm(); setIsAddOpen(true); }}
           style={{ borderRadius: '8px', padding: '10px 20px', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '8px', border: 'none', background: 'var(--primary-gradient)', color: '#fff', boxShadow: '0 4px 10px rgba(16,185,129,0.3)', cursor: 'pointer' }}>
@@ -128,17 +155,86 @@ export default function InstantGamesTableClient({ instantGames = [], categories 
         </button>
       </div>
 
-      <div style={{ padding: '32px' }}>
-        {/* Search Bar */}
-        <div style={{ maxWidth: '460px', marginBottom: '24px', display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', overflow: 'hidden', padding: '4px 12px' }}>
-          <i className="fa-solid fa-search" style={{ padding: '10px', color: '#94a3b8' }}></i>
-          <input
-            type="text"
-            placeholder="Live search instant games..."
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            style={{ flexGrow: 1, background: 'transparent', border: 'none', color: '#fff', padding: '10px', outline: 'none' }}
-          />
+      <div style={{ padding: '24px 32px' }}>
+        {/* Filters Controls Row */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px', marginBottom: '24px', alignItems: 'center' }}>
+          
+          {/* Live Search Bar */}
+          <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', overflow: 'hidden', padding: '2px 10px' }}>
+            <i className="fa-solid fa-search" style={{ color: '#94a3b8', fontSize: '13px' }}></i>
+            <input
+              type="text"
+              placeholder="Search instant games..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              style={{ flexGrow: 1, background: 'transparent', border: 'none', color: '#fff', padding: '8px 10px', outline: 'none', fontSize: '13px' }}
+            />
+            {searchTerm && (
+              <button onClick={() => setSearchTerm('')} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '4px' }}>
+                <i className="fa-solid fa-xmark"></i>
+              </button>
+            )}
+          </div>
+
+          {/* Filter by Source Portal */}
+          <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', padding: '2px 10px' }}>
+            <i className="fa-solid fa-globe" style={{ color: '#10b981', fontSize: '13px', marginRight: '6px' }}></i>
+            <select
+              value={selectedSource}
+              onChange={e => setSelectedSource(e.target.value)}
+              style={{ flexGrow: 1, background: 'transparent', border: 'none', color: '#fff', padding: '8px 4px', outline: 'none', fontSize: '13px', cursor: 'pointer' }}
+            >
+              <option value="ALL" style={{ background: '#111' }}>🌐 All Sources ({gamesList.length})</option>
+              {availableSources.map(src => (
+                <option key={src} value={src} style={{ background: '#111' }}>
+                  {src} ({gamesList.filter(g => (g.source || '').toLowerCase() === src.toLowerCase()).length})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Filter by Category */}
+          <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', padding: '2px 10px' }}>
+            <i className="fa-solid fa-layer-group" style={{ color: '#f59e0b', fontSize: '13px', marginRight: '6px' }}></i>
+            <select
+              value={selectedCategory}
+              onChange={e => setSelectedCategory(e.target.value)}
+              style={{ flexGrow: 1, background: 'transparent', border: 'none', color: '#fff', padding: '8px 4px', outline: 'none', fontSize: '13px', cursor: 'pointer' }}
+            >
+              <option value="ALL" style={{ background: '#111' }}>🏷️ All Categories</option>
+              {availableCategories.map(cat => (
+                <option key={cat} value={cat} style={{ background: '#111' }}>
+                  {cat} ({gamesList.filter(g => (g.category || '').toLowerCase() === cat.toLowerCase()).length})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Sort By Dropdown */}
+          <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', padding: '2px 10px' }}>
+            <i className="fa-solid fa-arrow-down-short-wide" style={{ color: '#3b82f6', fontSize: '13px', marginRight: '6px' }}></i>
+            <select
+              value={sortBy}
+              onChange={e => setSortBy(e.target.value)}
+              style={{ flexGrow: 1, background: 'transparent', border: 'none', color: '#fff', padding: '8px 4px', outline: 'none', fontSize: '13px', cursor: 'pointer' }}
+            >
+              <option value="newest" style={{ background: '#111' }}>📅 Newest First</option>
+              <option value="oldest" style={{ background: '#111' }}>⏳ Oldest First</option>
+              <option value="title_asc" style={{ background: '#111' }}>🔤 Title A-Z</option>
+              <option value="title_desc" style={{ background: '#111' }}>🔤 Title Z-A</option>
+            </select>
+          </div>
+
+          {/* Clear Filters Button */}
+          {hasActiveFilters && (
+            <button
+              onClick={resetFilters}
+              style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#ef4444', borderRadius: '10px', padding: '8px 14px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', transition: 'all 0.2s' }}
+            >
+              <i className="fa-solid fa-rotate-left"></i> Clear Filters
+            </button>
+          )}
+
         </div>
 
         <div className="table-responsive">
