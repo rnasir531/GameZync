@@ -45,20 +45,24 @@ export default function GamesRowSection({
           </span>
           
           {showSwitcher ? (
-            <div className="view-switcher-bar d-inline-flex global-view-switcher" style={{ width: 'max-content', transform: 'scale(0.9)' }}>
+            <div className="view-switcher-bar d-inline-flex global-view-switcher" style={{ width: 'max-content', gap: '4px' }}>
               <button 
+                type="button"
                 className={`view-switcher-btn ${viewMode === 'grid' ? 'active' : ''}`} 
-                title="Grid View"
+                title="Card View"
                 onClick={() => toggleViewMode('grid')}
+                style={{ padding: '5px 12px', fontSize: '12px', fontWeight: '700', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
               >
-                <i className="fa-solid fa-border-all"></i>
+                <i className="fa-solid fa-border-all"></i> Card View
               </button>
               <button 
+                type="button"
                 className={`view-switcher-btn ${viewMode === 'list' ? 'active' : ''}`} 
                 title="List View"
                 onClick={() => toggleViewMode('list')}
+                style={{ padding: '5px 12px', fontSize: '12px', fontWeight: '700', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
               >
-                <i className="fa-solid fa-list"></i>
+                <i className="fa-solid fa-list"></i> List View
               </button>
             </div>
           ) : (
