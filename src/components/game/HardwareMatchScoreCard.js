@@ -1,8 +1,11 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesting, handleRunTest }) {
   const [isMobile, setIsMobile] = useState(false);
+  const [mobileScanning, setMobileScanning] = useState(false);
+  const [showMobileNotice, setShowMobileNotice] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -11,46 +14,138 @@ export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesti
     }
   }, []);
 
-  // 1. MOBILE USERS: SHOW DIRECT INFORMATIVE MESSAGE CARD
+  const handleMobileScan = () => {
+    setMobileScanning(true);
+    setTimeout(() => {
+      setMobileScanning(false);
+      setShowMobileNotice(true);
+    }, 1200);
+  };
+
+  // 1. MOBILE USERS: INTERACTIVE SCANNER CARD WITH SPINNER & SYSTEM MATCHER NOTICE POPUP
   if (isMobile) {
     return (
-      <div 
-        className="hardware-match-hero-card" 
-        style={{
-          background: 'var(--card-bg)',
-          border: '1px solid var(--border-color)',
-          borderRadius: '20px',
-          padding: '18px 20px',
-          marginBottom: '24px',
-          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div 
-            style={{ 
-              width: '44px', 
-              height: '44px', 
-              borderRadius: '12px', 
-              background: 'rgba(16, 185, 129, 0.12)', 
-              border: '1px solid rgba(16, 185, 129, 0.25)', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              flexShrink: 0
-            }}
-          >
-            <i className="fa-solid fa-laptop-code" style={{ fontSize: '19px', color: '#10b981' }}></i>
-          </div>
-          <div>
-            <h4 style={{ margin: '0 0 3px', fontWeight: '800', fontSize: '1rem', color: 'var(--text-color)' }}>
-              Hardware Compatibility Scan
-            </h4>
-            <p style={{ margin: 0, fontSize: '12.5px', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-              Hardware specs scanning works on <strong style={{ color: 'var(--text-color)' }}>PC / Laptop browsers only</strong>. Open GameZync on your PC to test compatibility.
+      <>
+        <div className="scanner-console" style={{ marginBottom: '24px', padding: '20px 16px' }}>
+          <div className="scanner-content">
+            <div className="scanner-ring" style={{ width: '56px', height: '56px', marginBottom: '12px' }}>
+              <i className="fa-solid fa-satellite-dish pulse-icon" style={{ fontSize: '22px' }}></i>
+            </div>
+            <h3 className="scanner-title" style={{ fontSize: '1rem', marginBottom: '6px' }}>HARDWARE COMPATIBILITY SCANNER</h3>
+            <p className="scanner-text" style={{ fontSize: '12.5px', marginBottom: '14px' }}>
+              Scan your system hardware specifications to check if your device meets the requirements to run this game smoothly.
             </p>
+
+            <div className="scanner-highlights" style={{ marginBottom: '16px', gap: '6px' }}>
+              <div className="scan-badge" style={{ fontSize: '10px', padding: '4px 8px' }}><i className="fa-brands fa-windows"></i> OS</div>
+              <div className="scan-badge" style={{ fontSize: '10px', padding: '4px 8px' }}><i className="fa-solid fa-microchip"></i> CPU</div>
+              <div className="scan-badge" style={{ fontSize: '10px', padding: '4px 8px' }}><i className="fa-solid fa-vr-cardboard"></i> GPU</div>
+              <div className="scan-badge" style={{ fontSize: '10px', padding: '4px 8px' }}><i className="fa-solid fa-memory"></i> RAM</div>
+            </div>
+
+            <button 
+              type="button" 
+              className="scanner-btn" 
+              onClick={handleMobileScan}
+              disabled={mobileScanning}
+              style={{ width: '100%', padding: '12px 18px', fontSize: '13px' }}
+            >
+              {mobileScanning ? (
+                <><i className="fas fa-spinner fa-spin me-2"></i> SCANNING SYSTEM HARDWARE...</>
+              ) : (
+                <><i className="fa-solid fa-satellite-dish pulse-icon me-2"></i> INITIATE SYSTEM SCAN</>
+              )}
+            </button>
           </div>
         </div>
-      </div>
+
+        {/* MOBILE NOTICE MODAL POPUP */}
+        {showMobileNotice && (
+          <div 
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 99999,
+              background: 'rgba(0, 0, 0, 0.85)',
+              backdropFilter: 'blur(8px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '20px'
+            }}
+            onClick={() => setShowMobileNotice(false)}
+          >
+            <div 
+              style={{
+                background: 'var(--panel-bg, #111622)',
+                border: '1px solid var(--primary-color, #10b981)',
+                borderRadius: '20px',
+                padding: '24px 20px',
+                maxWidth: '420px',
+                width: '100%',
+                boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+                textAlign: 'center',
+                position: 'relative'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div 
+                style={{ 
+                  width: '54px', 
+                  height: '54px', 
+                  borderRadius: '50%', 
+                  background: 'rgba(16, 185, 129, 0.15)', 
+                  border: '1.5px solid rgba(16, 185, 129, 0.4)', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  margin: '0 auto 16px'
+                }}
+              >
+                <i className="fa-solid fa-laptop-code" style={{ fontSize: '24px', color: '#10b981' }}></i>
+              </div>
+
+              <h4 style={{ margin: '0 0 10px', fontSize: '1.15rem', fontWeight: '800', color: 'var(--text-color)' }}>
+                PC Compatibility Notice
+              </h4>
+
+              <p style={{ margin: '0 0 20px', fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                Hardware specs auto-detection is designed for <strong style={{ color: 'var(--text-color)' }}>PC & Laptop browsers</strong>. Open <strong style={{ color: '#10b981' }}>Gamer's Cafe</strong> on your desktop computer to scan your hardware specs.
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <Link 
+                  href="/system-matcher" 
+                  className="scanner-btn" 
+                  style={{ textDecoration: 'none', textAlign: 'center', width: '100%', padding: '12px' }}
+                >
+                  <i className="fa-solid fa-microchip me-2"></i> Open System Matcher
+                </Link>
+
+                <button 
+                  type="button" 
+                  onClick={() => setShowMobileNotice(false)}
+                  style={{
+                    background: 'transparent',
+                    border: '1px solid var(--border-color)',
+                    color: 'var(--text-muted)',
+                    padding: '10px',
+                    borderRadius: '12px',
+                    fontSize: '13px',
+                    fontWeight: '700',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
     );
   }
 
