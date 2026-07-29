@@ -40,7 +40,9 @@ export async function generateMetadata() {
     console.error("Error fetching SEO settings:", e);
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://game-zync.vercel.app';
+  const logoUrl = favicon || `${siteUrl}/gamezync-logo.png`;
+  const shareImageUrl = ogImage || `${siteUrl}/og-image.jpg`;
 
   return {
     metadataBase: new URL(siteUrl),
@@ -52,9 +54,13 @@ export async function generateMetadata() {
     description: siteDesc,
     keywords: keywords,
     icons: {
-      icon: favicon || '/gamezync-logo.png',
-      shortcut: favicon || '/gamezync-logo.png',
-      apple: favicon || '/gamezync-logo.png',
+      icon: [
+        { url: '/favicon.ico' },
+        { url: '/gamezync-logo.png', type: 'image/png' },
+        { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      ],
+      shortcut: '/gamezync-logo.png',
+      apple: '/icon-512.png',
     },
     robots: {
       index: true,
@@ -72,7 +78,20 @@ export async function generateMetadata() {
       description: siteDesc,
       url: siteUrl,
       siteName: siteName,
-      images: [{ url: ogImage || '/og-image.jpg', width: 1200, height: 630, alt: siteName }],
+      images: [
+        {
+          url: shareImageUrl,
+          width: 1200,
+          height: 630,
+          alt: siteName,
+        },
+        {
+          url: logoUrl,
+          width: 500,
+          height: 500,
+          alt: siteName,
+        }
+      ],
       locale: 'en_US',
       type: 'website',
     },
@@ -80,7 +99,7 @@ export async function generateMetadata() {
       card: 'summary_large_image',
       title: siteName,
       description: siteDesc,
-      images: [ogImage || '/og-image.jpg'],
+      images: [shareImageUrl],
     },
     alternates: {
       canonical: '/',
