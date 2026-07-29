@@ -56,10 +56,10 @@
 /* Mobile responsive positioning so arrow button floats cleanly above Mobile Bottom Dock */
 @media (max-width: 991px) {
     .scroll-progress-wrap {
-        bottom: 95px !important;
-        right: 18px !important;
-        width: 44px !important;
-        height: 44px !important;
+        bottom: 76px !important;
+        right: 14px !important;
+        width: 42px !important;
+        height: 42px !important;
         z-index: 9999 !important;
     }
     .scroll-up-icon {

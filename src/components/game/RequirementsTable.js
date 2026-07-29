@@ -32,75 +32,93 @@ export default function RequirementsTable({ game }) {
   const hasRecSpecs = !!(game.rec_cpu || game.rec_gpu || game.rec_os || game.rec_ram);
 
   const specRowsMin = [
-    { label: 'OS:', value: minOs },
-    { label: 'Processor:', value: minCpu },
-    { label: 'Memory:', value: minRam },
-    { label: 'Graphics:', value: minGpu },
-    { label: 'DirectX:', value: minDirectX },
-    { label: 'Storage:', value: minStorage },
+    { icon: 'fa-brands fa-windows', label: 'OPERATING SYSTEM', value: minOs },
+    { icon: 'fa-solid fa-microchip', label: 'PROCESSOR (CPU)', value: minCpu },
+    { icon: 'fa-solid fa-memory', label: 'MEMORY (RAM)', value: minRam },
+    { icon: 'fa-solid fa-vr-cardboard', label: 'GRAPHICS CARD (GPU)', value: minGpu },
+    { icon: 'fa-solid fa-compact-disc', label: 'DIRECTX', value: minDirectX },
+    { icon: 'fa-solid fa-hard-drive', label: 'STORAGE SPACE', value: minStorage },
   ];
 
   const specRowsRec = hasRecSpecs ? [
-    { label: 'OS:', value: game.rec_os || minOs },
-    { label: 'Processor:', value: cleanCpuString(game.rec_cpu) },
-    { label: 'Memory:', value: cleanRamString(game.rec_ram, '16 GB RAM') },
-    { label: 'Graphics:', value: game.rec_gpu },
-    { label: 'DirectX:', value: game.rec_directx || minDirectX },
-    { label: 'Storage:', value: game.rec_storage || minStorage },
+    { icon: 'fa-brands fa-windows', label: 'OPERATING SYSTEM', value: game.rec_os || minOs },
+    { icon: 'fa-solid fa-microchip', label: 'PROCESSOR (CPU)', value: cleanCpuString(game.rec_cpu) },
+    { icon: 'fa-solid fa-memory', label: 'MEMORY (RAM)', value: cleanRamString(game.rec_ram, '16 GB RAM') },
+    { icon: 'fa-solid fa-vr-cardboard', label: 'GRAPHICS CARD (GPU)', value: game.rec_gpu },
+    { icon: 'fa-solid fa-compact-disc', label: 'DIRECTX', value: game.rec_directx || minDirectX },
+    { icon: 'fa-solid fa-hard-drive', label: 'STORAGE SPACE', value: game.rec_storage || minStorage },
   ] : [];
 
-  const rowStyle = {
-    display: 'grid',
-    gridTemplateColumns: '90px 1fr',
-    gap: '10px',
-    alignItems: 'baseline',
-    fontSize: '13px',
-    color: 'var(--text-muted)',
-    lineHeight: '1.5',
-    minWidth: 0,
-    overflowWrap: 'anywhere',
-    wordBreak: 'break-word'
-  };
+  const renderSpecGrid = (specList, accentColor = '#10b981') => (
+    <div 
+      style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', 
+        gap: '12px' 
+      }}
+    >
+      {specList.map((item, idx) => (
+        <div 
+          key={idx}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '14px',
+            background: 'var(--search-bg)',
+            border: '1px solid var(--border-color)',
+            borderRadius: '16px',
+            padding: '14px 16px',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.04)',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          <div 
+            style={{
+              width: '42px',
+              height: '42px',
+              borderRadius: '12px',
+              background: accentColor === '#10b981' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(6, 182, 212, 0.12)',
+              border: `1px solid ${accentColor === '#10b981' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(6, 182, 212, 0.3)'}`,
+              color: accentColor,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '18px',
+              flexShrink: 0
+            }}
+          >
+            <i className={item.icon}></i>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', minWidth: 0 }}>
+            <span style={{ fontSize: '9.5px', fontWeight: '800', color: 'var(--text-muted)', letterSpacing: '0.6px', textTransform: 'uppercase' }}>
+              {item.label}
+            </span>
+            <span style={{ fontSize: '13px', fontWeight: '800', color: 'var(--text-color)', lineHeight: '1.35', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
+              {item.value}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 
-  const labelStyle = {
-    color: 'var(--text-color)',
-    fontWeight: '800',
-    flexShrink: 0
-  };
-
-  const valueStyle = {
-    color: 'var(--text-muted)',
-    minWidth: 0,
-    overflowWrap: 'anywhere',
-    wordBreak: 'break-word'
-  };
-
-  // SINGLE REQUIREMENT MODE: Clean, non-repetitive single-card layout
+  // SINGLE REQUIREMENT MODE: Clean grid of 6 spec cards
   if (!hasRecSpecs) {
     return (
-      <div className="details-info-card" style={{ background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '24px 20px', marginTop: '32px', boxShadow: '0 8px 30px rgba(0,0,0,0.08)' }}>
-        <h2 className="details-card-title" style={{ color: 'var(--text-color)', fontSize: '1.35rem', fontWeight: '800', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div className="details-info-card" style={{ background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '24px 24px', marginTop: '24px', boxShadow: '0 8px 30px rgba(0,0,0,0.08)' }}>
+        <h2 className="details-card-title" style={{ color: 'var(--text-color)', fontSize: '1.35rem', fontWeight: '900', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <i className="fa-solid fa-microchip" style={{ color: 'var(--primary-color)' }}></i> System Requirements
         </h2>
 
-        <div className="req-box" style={{ background: 'var(--search-bg)', border: '1px solid var(--border-color)', borderRadius: '18px', padding: '20px 22px', overflow: 'hidden' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px 24px' }}>
-            {specRowsMin.map((row, idx) => (
-              <div key={idx} style={rowStyle}>
-                <span style={labelStyle}>{row.label}</span>
-                <span style={valueStyle}>{row.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        {renderSpecGrid(specRowsMin, '#10b981')}
       </div>
     );
   }
 
   // DUAL REQUIREMENT MODE: Side-by-Side Minimum & Recommended Cards
   return (
-    <div className="details-info-card" style={{ background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '24px 20px', marginTop: '32px', boxShadow: '0 8px 30px rgba(0,0,0,0.08)' }}>
-      <h2 className="details-card-title" style={{ color: 'var(--text-color)', fontSize: '1.35rem', fontWeight: '800', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <div className="details-info-card" style={{ background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '24px 24px', marginTop: '24px', boxShadow: '0 8px 30px rgba(0,0,0,0.08)' }}>
+      <h2 className="details-card-title" style={{ color: 'var(--text-color)', fontSize: '1.35rem', fontWeight: '900', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
         <i className="fa-solid fa-microchip" style={{ color: 'var(--primary-color)' }}></i> System Requirements
       </h2>
 
@@ -108,38 +126,24 @@ export default function RequirementsTable({ game }) {
         className="requirements-split-grid" 
         style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-          gap: '20px' 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+          gap: '24px' 
         }}
       >
         {/* MINIMUM REQUIREMENTS */}
-        <div className="req-box min-req" style={{ background: 'var(--search-bg)', border: '1px solid var(--border-color)', borderRadius: '18px', padding: '20px 22px', overflow: 'hidden' }}>
-          <h3 className="req-box-header min-header" style={{ color: '#10b981', fontSize: '1rem', fontWeight: '800', marginBottom: '18px', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="req-box min-req">
+          <h3 className="req-box-header min-header" style={{ color: '#10b981', fontSize: '1rem', fontWeight: '800', marginBottom: '16px', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <i className="fa-solid fa-shield-halved" style={{ fontSize: '14px' }}></i> MINIMUM REQUIREMENTS
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {specRowsMin.map((row, idx) => (
-              <div key={idx} style={rowStyle}>
-                <span style={labelStyle}>{row.label}</span>
-                <span style={valueStyle}>{row.value}</span>
-              </div>
-            ))}
-          </div>
+          {renderSpecGrid(specRowsMin, '#10b981')}
         </div>
 
         {/* RECOMMENDED REQUIREMENTS */}
-        <div className="req-box rec-req" style={{ background: 'var(--search-bg)', border: '1px solid var(--border-color)', borderRadius: '18px', padding: '20px 22px', overflow: 'hidden' }}>
-          <h3 className="req-box-header rec-header" style={{ color: '#06b6d4', fontSize: '1rem', fontWeight: '800', marginBottom: '18px', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="req-box rec-req">
+          <h3 className="req-box-header rec-header" style={{ color: '#06b6d4', fontSize: '1rem', fontWeight: '800', marginBottom: '16px', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <i className="fa-solid fa-rocket" style={{ fontSize: '14px' }}></i> RECOMMENDED REQUIREMENTS
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {specRowsRec.map((row, idx) => (
-              <div key={idx} style={rowStyle}>
-                <span style={labelStyle}>{row.label}</span>
-                <span style={valueStyle}>{row.value}</span>
-              </div>
-            ))}
-          </div>
+          {renderSpecGrid(specRowsRec, '#06b6d4')}
         </div>
       </div>
     </div>

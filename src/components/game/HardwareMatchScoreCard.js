@@ -103,18 +103,21 @@ export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesti
       style={{
         background: 'var(--card-bg)',
         border: '1px solid var(--border-color)',
-        borderRadius: '24px',
-        padding: '24px 28px',
-        marginBottom: '28px',
-        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)'
+        borderLeft: `4px solid ${isPlayable ? '#10b981' : '#ef4444'}`,
+        borderRadius: '20px',
+        padding: '20px 24px',
+        marginBottom: '24px',
+        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
+        position: 'relative',
+        overflow: 'hidden'
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
           <div 
             style={{ 
-              width: '76px', 
-              height: '76px', 
+              width: '68px', 
+              height: '68px', 
               borderRadius: '50%', 
               background: isPlayable ? 'rgba(16, 185, 129, 0.14)' : 'rgba(239, 68, 68, 0.14)', 
               border: `2.5px solid ${isPlayable ? '#10b981' : '#ef4444'}`, 
@@ -123,18 +126,18 @@ export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesti
               justifyContent: 'center',
               flexDirection: 'column',
               flexShrink: 0,
-              boxShadow: isPlayable ? '0 0 20px rgba(16, 185, 129, 0.3)' : '0 0 20px rgba(239, 68, 68, 0.3)'
+              boxShadow: isPlayable ? '0 0 25px rgba(16, 185, 129, 0.35)' : '0 0 25px rgba(239, 68, 68, 0.35)'
             }}
           >
-            <span style={{ fontSize: '22px', fontWeight: '900', color: isPlayable ? '#10b981' : '#ef4444' }}>{overallPercentage}%</span>
-            <span style={{ fontSize: '9px', fontWeight: '700', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Score</span>
+            <span style={{ fontSize: '20px', fontWeight: '900', color: isPlayable ? '#10b981' : '#ef4444' }}>{overallPercentage}%</span>
+            <span style={{ fontSize: '8.5px', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Score</span>
           </div>
 
           <div>
-            <h4 style={{ margin: '0 0 4px', fontWeight: '800', fontSize: '1.2rem', color: 'var(--text-color)' }}>
+            <h4 style={{ margin: '0 0 3px', fontWeight: '900', fontSize: '1.2rem', color: 'var(--text-color)', letterSpacing: '-0.3px' }}>
               {isPlayable ? '✅ Great News! Your PC Can Run This Game' : '⚠️ Specs Fall Below Minimum Requirements'}
             </h4>
-            <p style={{ margin: 0, fontSize: '13.5px', color: 'var(--text-muted)' }}>
+            <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-muted)' }}>
               There is a <strong style={{ color: isPlayable ? '#10b981' : '#ef4444' }}>{overallPercentage}% chance</strong> this game will run smoothly on your PC hardware.
             </p>
           </div>
@@ -148,13 +151,14 @@ export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesti
             color: 'var(--text-color)',
             fontWeight: '700',
             fontSize: '13px',
-            borderRadius: '12px',
-            padding: '10px 20px',
+            borderRadius: '50px',
+            padding: '10px 22px',
             border: '1px solid var(--border-color)',
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '8px'
+            gap: '8px',
+            transition: 'all 0.25s ease'
           }}
         >
           {isTesting ? <><i className="fas fa-spinner fa-spin"></i> Rescanning...</> : <><i className="fa-solid fa-rotate-right"></i> Rescan PC</>}

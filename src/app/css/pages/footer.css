@@ -341,7 +341,7 @@
         align-items: center;
         text-align: center;
         gap: 12px;
-        padding: 16px 16px 85px !important; /* Safe padding for Mobile Bottom Dock */
+        padding: 16px 16px 15px !important; /* Normal clean spacing above Mobile Bottom Dock */
     }
     .footer-bottom-badges {
         justify-content: center;
