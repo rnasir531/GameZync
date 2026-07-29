@@ -118,8 +118,7 @@
         width: 100vw;
     }
     .main-content {
-        padding: 24px 16px;
-        padding-bottom: 96px;
+        padding: 20px 16px 0px !important;
     }
 }
 .ns-logo-mark {

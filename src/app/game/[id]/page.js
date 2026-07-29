@@ -82,13 +82,13 @@ export default async function GameDetails({ params }) {
   // Increment view count fire-and-forget (non-blocking — page loads instantly)
   db.query(`UPDATE games SET views = views + 1 WHERE id = $1`, [gameId]).catch(() => {});
 
-  // Suggested games — use latest games (fast index scan) instead of ORDER BY RANDOM()
+  // Suggested games — fetch 5 games for laptop 5-column layout
   const { rows: suggestedGamesData } = await db.query(`
     SELECT id, name, cover_image, category, release_year
     FROM games
     WHERE id != $1 AND status = 'published'
     ORDER BY created_at DESC
-    LIMIT 4
+    LIMIT 5
   `, [gameId]);
 
   const suggestedGames = suggestedGamesData.map(g => ({

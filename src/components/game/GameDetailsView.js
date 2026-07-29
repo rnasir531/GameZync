@@ -9,7 +9,7 @@ const SuggestedGamesSection = dynamic(() => import('./SuggestedGamesSection'), {
 
 export default function GameDetailsView({ game, suggestedGames }) {
   return (
-    <section className="game-details-section" style={{ paddingBottom: '20px' }}>
+    <section className="game-details-section" style={{ paddingBottom: '0px', marginBottom: '0px' }}>
       {/* 1. Header Info Bar & Split Media Gallery */}
       <GameHeroMediaGallery game={game} />
       

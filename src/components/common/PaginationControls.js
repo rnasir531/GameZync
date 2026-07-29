@@ -20,18 +20,32 @@ export default function PaginationControls({ currentPage, totalPages, onPageChan
   };
 
   return (
-    <div className="pagination-wrapper" style={{ marginTop: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-      {/* PREVIOUS BUTTON */}
-      <button 
-        className="pagination-action-btn"
-        disabled={currentPage === 1}
-        onClick={() => onPageChange(currentPage - 1)}
-      >
-        <i className="fa-solid fa-chevron-left"></i> Previous
-      </button>
+    <div className="pagination-wrapper">
+      {/* MOBILE RESPONSIVE NAV BAR: PREVIOUS | PAGE X OF Y | NEXT */}
+      <div className="mobile-pagination-nav">
+        <button 
+          className="pagination-action-btn"
+          disabled={currentPage === 1}
+          onClick={() => onPageChange(currentPage - 1)}
+        >
+          <i className="fa-solid fa-chevron-left"></i> Previous
+        </button>
 
-      {/* NUMBERED PAGE PILLS */}
-      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+        <span className="page-indicator-mobile">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <button 
+          className="pagination-action-btn"
+          disabled={currentPage === totalPages}
+          onClick={() => onPageChange(currentPage + 1)}
+        >
+          Next <i className="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      {/* DESKTOP NUMBERED PAGE PILLS */}
+      <div className="desktop-page-numbers" style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
         {Array.from({ length: totalPages }, (_, i) => i + 1)
           .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1)
           .map((page, idx, array) => {
@@ -52,30 +66,21 @@ export default function PaginationControls({ currentPage, totalPages, onPageChan
           })}
       </div>
 
-      {/* GO TO PAGE INPUT FORM */}
-      <form onSubmit={handleGoSubmit} className="goto-page-form" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      {/* GO TO PAGE JUMP FORM */}
+      <form onSubmit={handleGoSubmit} className="goto-page-form">
         <input 
           type="number" 
           min="1" 
           max={totalPages}
           value={jumpInput}
           onChange={(e) => setJumpInput(e.target.value)}
-          placeholder="Go to page..."
+          placeholder={`Go to page (1-${totalPages})...`}
           className="goto-page-input"
         />
         <button type="submit" className="goto-page-btn">
           Go
         </button>
       </form>
-
-      {/* NEXT BUTTON */}
-      <button 
-        className="pagination-action-btn"
-        disabled={currentPage === totalPages}
-        onClick={() => onPageChange(currentPage + 1)}
-      >
-        Next <i className="fa-solid fa-chevron-right"></i>
-      </button>
     </div>
   );
 }
