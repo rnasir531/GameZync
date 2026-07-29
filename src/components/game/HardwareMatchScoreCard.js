@@ -1,7 +1,23 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesting, handleRunTest }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const mobileCheck = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+      setIsMobile(mobileCheck);
+    }
+  }, []);
+
+  const onScanClick = () => {
+    if (isMobile) {
+      alert("💻 Mobile Notice: System Matcher tests PC specs for PC gaming compatibility. Default PC hardware benchmark is being evaluated!");
+    }
+    handleRunTest();
+  };
+
   // IF USER HAS NOT SCANNED PC YET -> DO NOT SHOW ANY PERCENTAGE SCORE RING OR 0%!
   if (!userSpecs || !userSpecs.gpu || !userSpecs.cpu) {
     return (
@@ -17,7 +33,7 @@ export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesti
           boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
           display: 'flex',
           alignItems: 'center',
-          justify: 'space-between',
+          justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '20px'
         }}
@@ -32,7 +48,7 @@ export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesti
               border: '1px solid rgba(16, 185, 129, 0.3)', 
               display: 'flex', 
               alignItems: 'center', 
-              justify: 'center',
+              justifyContent: 'center',
               flexShrink: 0
             }}
           >
@@ -49,7 +65,7 @@ export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesti
         </div>
 
         <button 
-          onClick={handleRunTest} 
+          onClick={onScanClick} 
           disabled={isTesting}
           style={{
             background: '#10b981',
@@ -68,6 +84,28 @@ export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesti
         >
           {isTesting ? <><i className="fas fa-spinner fa-spin"></i> Scanning PC...</> : <><i className="fa-solid fa-radar"></i> Scan PC Specs</>}
         </button>
+
+        {isMobile && (
+          <div 
+            style={{
+              width: '100%',
+              marginTop: '12px',
+              padding: '10px 14px',
+              borderRadius: '12px',
+              background: 'rgba(6, 182, 212, 0.1)',
+              border: '1px solid rgba(6, 182, 212, 0.25)',
+              color: '#06b6d4',
+              fontSize: '12.5px',
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+          >
+            <i className="fa-solid fa-laptop" style={{ fontSize: '14px', flexShrink: 0 }}></i>
+            <span><strong>Mobile Notice:</strong> System Matcher scans PC hardware specs for PC games (Mobile phone specs are not scanned).</span>
+          </div>
+        )}
       </div>
     );
   }
@@ -129,7 +167,7 @@ export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesti
 
         {/* RE-SCAN BUTTON (EXPLICIT EMERALD BRANDING) */}
         <button 
-          onClick={handleRunTest} 
+          onClick={onScanClick} 
           disabled={isTesting}
           style={{
             background: '#10b981',
@@ -156,6 +194,27 @@ export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesti
           <div><strong style={{ color: 'var(--text-color)' }}>GPU:</strong> {userSpecs.gpu}</div>
           <div><strong style={{ color: 'var(--text-color)' }}>CPU:</strong> {userSpecs.cpu}</div>
           <div><strong style={{ color: 'var(--text-color)' }}>RAM:</strong> {userSpecs.ram} GB</div>
+        </div>
+      )}
+
+      {isMobile && (
+        <div 
+          style={{
+            marginTop: '16px',
+            padding: '10px 14px',
+            borderRadius: '12px',
+            background: 'rgba(6, 182, 212, 0.1)',
+            border: '1px solid rgba(6, 182, 212, 0.25)',
+            color: '#06b6d4',
+            fontSize: '12.5px',
+            fontWeight: '600',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}
+        >
+          <i className="fa-solid fa-laptop" style={{ fontSize: '14px', flexShrink: 0 }}></i>
+          <span><strong>Mobile Notice:</strong> System Matcher evaluates <strong>PC Specs</strong> for PC games (Mobile phone specs are not scanned).</span>
         </div>
       )}
     </div>
