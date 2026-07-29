@@ -28,10 +28,10 @@ export default function FooterMainColumns({ settings }) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 lineHeight: '1',
-                gap: '3px'
+                gap: '4px'
               }}
             >
-              <span style={{ color: 'var(--text-color)' }}>GAMERS</span>
+              <span style={{ color: 'var(--text-color)' }}>GAMER'S</span>
               <span style={{ 
                 background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
                 WebkitBackgroundClip: 'text',

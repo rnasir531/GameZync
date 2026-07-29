@@ -23,7 +23,7 @@ export const viewport = {
 };
 
 export async function generateMetadata() {
-  let siteName = "Gamers Cafe";
+  let siteName = "Gamer's Cafe";
   let siteDesc = "The ultimate PC gaming platform. Sync your hardware specs, play instant web games, and download PC titles.";
   let keywords = "";
 
