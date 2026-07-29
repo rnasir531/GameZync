@@ -25,30 +25,29 @@ export default function AdminTopbarActions({ displayName, avatarUrl, notifs }) {
     
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      // We don't remove dark-theme here because the front-end might also be using it,
-      // and front-end has its own logic to manage it.
     };
   }, []);
 
   const notifCount = notifs.length;
 
   return (
-    <div className="topbar-actions d-flex align-items-center gap-3">
+    <div className="topbar-actions d-flex align-items-center gap-2">
       {/* Profile Dropdown */}
-      <div className="dropdown d-none d-sm-flex" ref={profileRef} style={{ position: 'relative' }}>
+      <div className="dropdown d-flex" ref={profileRef} style={{ position: 'relative' }}>
         <div 
             className="profile-pill" 
             onClick={() => { setProfileOpen(!profileOpen); setNotifOpen(false); }}
+            style={{ cursor: 'pointer', padding: '4px 10px', display: 'flex', alignItems: 'center', gap: '8px' }}
         >
-            <img onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop'; }} src={avatarUrl} alt="Profile" className="profile-pill-img" />
-            <span className="profile-pill-name">
+            <img onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop'; }} src={avatarUrl} alt="Profile" className="profile-pill-img" style={{ width: '28px', height: '28px', borderRadius: '50%' }} />
+            <span className="profile-pill-name d-none d-md-inline" style={{ fontSize: '13px', fontWeight: '600' }}>
                 {displayName}
             </span>
-            <i className="fa-solid fa-chevron-down profile-pill-icon"></i>
+            <i className="fa-solid fa-chevron-down profile-pill-icon" style={{ fontSize: '11px' }}></i>
         </div>
         
         {profileOpen && (
-            <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0 show" style={{ position: 'absolute', right: 0, top: '100%', marginTop: '8px', borderRadius: '12px', background: 'var(--card-bg)', padding: '8px', minWidth: '150px' }}>
+            <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0 show" style={{ position: 'absolute', right: 0, top: '100%', marginTop: '8px', borderRadius: '12px', background: 'var(--card-bg)', padding: '8px', minWidth: '140px', zIndex: 1005 }}>
                 <li>
                     <a className="dropdown-item text-danger fw-bold confirm-logout-btn" href="/api/auth/logout" style={{ borderRadius: '8px', display: 'flex', alignItems: 'center' }}>
                         <i className="fa-solid fa-right-from-bracket me-2"></i> Logout
@@ -64,6 +63,7 @@ export default function AdminTopbarActions({ displayName, avatarUrl, notifs }) {
               className="icon-btn position-relative theme-toggle-btn border-0" 
               type="button" 
               onClick={() => { setNotifOpen(!notifOpen); setProfileOpen(false); }}
+              style={{ width: '36px', height: '36px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
               <i className="fa-solid fa-bell"></i>
               {notifCount > 0 && (
@@ -74,7 +74,7 @@ export default function AdminTopbarActions({ displayName, avatarUrl, notifs }) {
           </button>
 
           {notifOpen && (
-              <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0 show" style={{ position: 'absolute', right: 0, top: '100%', marginTop: '8px', width: '320px', maxHeight: '400px', overflowY: 'auto', borderRadius: '12px', background: 'var(--card-bg)' }}>
+              <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0 show" style={{ position: 'absolute', right: 0, top: '100%', marginTop: '8px', width: '280px', maxHeight: '360px', overflowY: 'auto', borderRadius: '12px', background: 'var(--card-bg)', zIndex: 1005 }}>
                   <li><h6 className="dropdown-header d-flex justify-content-between align-items-center text-light">Notifications</h6></li>
                   <li><hr className="dropdown-divider border-secondary" /></li>
                   {notifs.length === 0 ? (
