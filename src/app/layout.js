@@ -41,8 +41,8 @@ export async function generateMetadata() {
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://game-zync.vercel.app';
-  const logoUrl = favicon || `${siteUrl}/gamezync-logo.png`;
-  const shareImageUrl = ogImage || `${siteUrl}/og-image.jpg`;
+  const logoUrl = (favicon || `${siteUrl}/gamezync-logo.png`) + '?v=3';
+  const shareImageUrl = (ogImage || `${siteUrl}/og-image.jpg`) + '?v=3';
 
   return {
     metadataBase: new URL(siteUrl),
@@ -55,12 +55,12 @@ export async function generateMetadata() {
     keywords: keywords,
     icons: {
       icon: [
-        { url: '/favicon.ico' },
-        { url: '/gamezync-logo.png', type: 'image/png' },
-        { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+        { url: '/favicon.ico?v=3' },
+        { url: '/gamezync-logo.png?v=3', type: 'image/png' },
+        { url: '/icon-192.png?v=3', sizes: '192x192', type: 'image/png' },
       ],
-      shortcut: '/gamezync-logo.png',
-      apple: '/icon-512.png',
+      shortcut: '/gamezync-logo.png?v=3',
+      apple: '/icon-512.png?v=3',
     },
     robots: {
       index: true,
