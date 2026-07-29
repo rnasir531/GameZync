@@ -197,7 +197,7 @@ export default function InstantGamesView({ allGames }) {
       </div>
       
       {/* GAMES GRID */}
-      <div className="games-grid view-cards-active" id="instant-games-grid">
+      <div className="games-grid view-cards-active instant-games-grid-mobile" id="instant-games-grid">
         {currentGames.map(game => (
           <div key={game.id} onClick={() => handleSelectGame(game)}>
             <GameCard 
