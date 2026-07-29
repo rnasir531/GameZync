@@ -18,7 +18,7 @@ export default function SuggestedGamesSection({ suggestedGames }) {
 
   if (!suggestedGames || suggestedGames.length === 0) return null;
 
-  // Mobile view: 4 cards (2x2 grid) | Laptop / Desktop view: 5 cards (5-column grid)
+  // Mobile view: 4 cards (2x2 grid) | Laptop / Desktop view: 5 cards (1x5 horizontal row grid)
   const gamesToDisplay = isMobile ? suggestedGames.slice(0, 4) : suggestedGames.slice(0, 5);
 
   return (
@@ -26,7 +26,15 @@ export default function SuggestedGamesSection({ suggestedGames }) {
       <h2 className="suggested-title" style={{ marginBottom: '20px', fontSize: 'clamp(18px, 4vw, 24px)', fontWeight: '800' }}>
         <i className="fa-solid fa-layer-group" style={{ color: 'var(--primary-color)' }}></i> More Games You Might Like
       </h2>
-      <div className="games-grid-5-col">
+      <div 
+        className="suggested-cards-row-grid"
+        style={{ 
+          display: 'grid', 
+          gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', 
+          gap: isMobile ? '12px' : '18px',
+          width: '100%'
+        }}
+      >
         {gamesToDisplay.map(sg => (
           <GameCard key={sg.id} game={sg} />
         ))}
