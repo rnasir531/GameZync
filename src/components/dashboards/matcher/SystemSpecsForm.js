@@ -19,177 +19,27 @@ export default function SystemSpecsForm({
     }
   }, []);
 
-  const onMobileScanClick = () => {
-    setShowMobileModal(true);
+  const onInitiateScanClick = (e) => {
+    if (isMobile) {
+      e.preventDefault();
+      setShowMobileModal(true);
+      return;
+    }
+    handleScan();
   };
 
-  // MOBILE VIEW: 1 SINGLE UNIFIED SLEEK CARD (NO BOX INSIDE BOX!)
-  if (isMobile) {
-    return (
-      <div id="systemMatcherFormMobile">
-        <div 
-          style={{ 
-            background: 'var(--card-bg)',
-            border: '1px solid var(--border-color)',
-            borderRadius: '20px',
-            padding: '28px 20px',
-            textAlign: 'center',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)'
-          }}
-        >
-          <div 
-            style={{
-              width: '64px',
-              height: '64px',
-              margin: '0 auto 16px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%)',
-              border: '1.5px solid rgba(16, 185, 129, 0.4)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '26px',
-              color: '#10b981',
-              boxShadow: '0 0 20px rgba(16, 185, 129, 0.2)'
-            }}
-          >
-            <i className="fa-solid fa-laptop"></i>
-          </div>
-          
-          <h4 style={{ fontWeight: 800, fontSize: '1.25rem', marginBottom: '8px', color: 'var(--text-color)', fontFamily: 'var(--font-heading)' }}>
-            PC Hardware Scanner
-          </h4>
-          
-          <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', marginBottom: '22px', lineHeight: '1.5', maxWidth: '300px', margin: '0 auto 22px' }}>
-            System Matcher tests PC hardware specs to recommend compatible PC games.
-          </p>
+  const onRescanClick = (e) => {
+    if (isMobile) {
+      e.preventDefault();
+      setShowMobileModal(true);
+      return;
+    }
+    rescan();
+  };
 
-          <button 
-            type="button" 
-            onClick={onMobileScanClick}
-            style={{
-              background: '#10b981',
-              color: '#ffffff',
-              fontWeight: '800',
-              fontSize: '13.5px',
-              borderRadius: '14px',
-              padding: '12px 28px',
-              border: 'none',
-              boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}
-          >
-            <i className="fa-solid fa-radar"></i> INITIATE PC SCAN
-          </button>
-        </div>
-
-        {/* CUSTOM ULTRA-SLEEK CYBER POPUP MODAL FOR MOBILE */}
-        {showMobileModal && (
-          <div 
-            style={{
-              position: 'fixed',
-              inset: 0,
-              background: 'rgba(0, 0, 0, 0.75)',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
-              zIndex: 99999,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '20px',
-              animation: 'fadeIn 0.25s ease'
-            }}
-            onClick={() => setShowMobileModal(false)}
-          >
-            <div 
-              style={{
-                background: 'var(--card-bg)',
-                border: '1.5px solid var(--border-color)',
-                borderRadius: '24px',
-                padding: '30px 24px',
-                maxWidth: '380px',
-                width: '100%',
-                textAlign: 'center',
-                boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 25px rgba(16, 185, 129, 0.2)',
-                position: 'relative'
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setShowMobileModal(false)}
-                style={{
-                  position: 'absolute',
-                  top: '14px',
-                  right: '16px',
-                  background: 'transparent',
-                  border: 'none',
-                  color: 'var(--text-muted)',
-                  fontSize: '18px',
-                  cursor: 'pointer',
-                  padding: '4px'
-                }}
-              >
-                <i className="fa-solid fa-times"></i>
-              </button>
-
-              <div 
-                style={{
-                  width: '64px',
-                  height: '64px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%)',
-                  border: '1.5px solid rgba(16, 185, 129, 0.4)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 18px',
-                  fontSize: '28px',
-                  color: '#10b981',
-                  boxShadow: '0 0 24px rgba(16, 185, 129, 0.25)'
-                }}
-              >
-                <i className="fa-solid fa-laptop"></i>
-              </div>
-
-              <h3 style={{ margin: '0 0 10px', fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-color)' }}>
-                PC Specs Required
-              </h3>
-
-              <p style={{ margin: '0 0 24px', fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: '1.6' }}>
-                System Matcher evaluates <strong>PC hardware specs</strong> for PC gaming compatibility. Please open <strong>GameZync</strong> on your PC or Laptop to scan your desktop hardware!
-              </p>
-
-              <button 
-                onClick={() => setShowMobileModal(false)}
-                style={{
-                  width: '100%',
-                  background: 'var(--accent-gradient)',
-                  color: '#ffffff',
-                  fontWeight: '800',
-                  fontSize: '14px',
-                  padding: '12px',
-                  borderRadius: '14px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 16px var(--primary-glow)'
-                }}
-              >
-                Got It!
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // DESKTOP VIEW: FULL DETECTED SPECS FORM & PC HARDWARE SCANNER
   return (
     <form id="systemMatcherForm" onSubmit={findGames}>
-      {scanState === 'empty' && (
+      {(scanState === 'empty' || isMobile) && (
         <div id="matcherEmptyState" className="scanner-console">
           <div className="scanner-content">
             <div className="scanner-ring">
@@ -206,7 +56,7 @@ export default function SystemSpecsForm({
               <span className="scan-badge"><i className="fa-solid fa-memory"></i> RAM</span>
             </div>
             <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <button type="button" className="scanner-btn" onClick={handleScan}>
+              <button type="button" className="scanner-btn" onClick={onInitiateScanClick}>
                 <i className="fa-solid fa-radar"></i> INITIATE PC SCAN
               </button>
             </div>
@@ -214,7 +64,7 @@ export default function SystemSpecsForm({
         </div>
       )}
 
-      {scanState === 'scanning' && (
+      {scanState === 'scanning' && !isMobile && (
         <div style={{ textAlign: 'center', padding: '60px 20px' }}>
           <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '3rem', color: 'var(--primary-color)', marginBottom: '20px' }}></i>
           <h4>Detecting Hardware...</h4>
@@ -222,7 +72,7 @@ export default function SystemSpecsForm({
         </div>
       )}
 
-      {scanState === 'detected' && (
+      {scanState === 'detected' && !isMobile && (
         <div id="matcherDetectedState">
           <div className="text-center" style={{ marginBottom: '30px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '10px' }}>
@@ -264,11 +114,110 @@ export default function SystemSpecsForm({
           </div>
 
           <div className="text-center" style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap' }}>
-            <button type="button" className="matcher-btn" onClick={rescan} style={{ marginTop: 0, background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-color)', padding: '12px 25px', borderRadius: '50px', fontSize: '0.95rem' }}>
+            <button type="button" className="matcher-btn" onClick={onRescanClick} style={{ marginTop: 0, background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-color)', padding: '12px 25px', borderRadius: '50px', fontSize: '0.95rem' }}>
               <i className="fa-solid fa-rotate-right me-2"></i> Rescan
             </button>
             <button type="submit" className="matcher-btn" disabled={isFinding} style={{ marginTop: 0, background: 'var(--text-color)', color: 'var(--card-bg)', padding: '12px 25px', borderRadius: '50px', fontSize: '0.95rem' }}>
               {isFinding ? <i className="fa-solid fa-spinner fa-spin me-2"></i> : <i className="fa-solid fa-search me-2"></i>} Find Games
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* CUSTOM ULTRA-SLEEK CYBER POPUP MODAL FOR MOBILE USERS */}
+      {showMobileModal && (
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.75)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            zIndex: 99999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+            animation: 'fadeIn 0.25s ease'
+          }}
+          onClick={() => setShowMobileModal(false)}
+        >
+          <div 
+            style={{
+              background: 'var(--card-bg)',
+              border: '1.5px solid var(--border-color)',
+              borderRadius: '24px',
+              padding: '30px 24px',
+              maxWidth: '380px',
+              width: '100%',
+              textAlign: 'center',
+              boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 25px rgba(16, 185, 129, 0.2)',
+              position: 'relative'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setShowMobileModal(false)}
+              style={{
+                position: 'absolute',
+                top: '14px',
+                right: '16px',
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--text-muted)',
+                fontSize: '18px',
+                cursor: 'pointer',
+                padding: '4px'
+              }}
+            >
+              <i className="fa-solid fa-times"></i>
+            </button>
+
+            <div 
+              style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%)',
+                border: '1.5px solid rgba(16, 185, 129, 0.4)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 18px',
+                fontSize: '28px',
+                color: '#10b981',
+                boxShadow: '0 0 24px rgba(16, 185, 129, 0.25)'
+              }}
+            >
+              <i className="fa-solid fa-laptop"></i>
+            </div>
+
+            <h3 style={{ margin: '0 0 10px', fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-color)' }}>
+              PC Specs Required
+            </h3>
+
+            <p style={{ margin: '0 0 24px', fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+              System Matcher evaluates <strong>PC hardware specs</strong> for PC gaming compatibility. Please open <strong>GameZync</strong> on your PC or Laptop to scan your desktop hardware!
+            </p>
+
+            <button 
+              type="button"
+              onClick={() => setShowMobileModal(false)}
+              style={{
+                width: '100%',
+                background: 'var(--accent-gradient)',
+                color: '#ffffff',
+                fontWeight: '800',
+                fontSize: '14px',
+                padding: '12px',
+                borderRadius: '14px',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 4px 16px var(--primary-glow)'
+              }}
+            >
+              Got It!
             </button>
           </div>
         </div>
