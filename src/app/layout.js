@@ -26,23 +26,23 @@ export async function generateMetadata() {
   let siteName = "GameZync";
   let siteDesc = "The ultimate PC gaming platform. Sync your hardware specs, play instant web games, and download PC titles.";
   let keywords = "";
-  let ogImage = "";
-  let favicon = "";
+  let ogImage = "/og-image.jpg?v=10";
+  let favicon = "/gamezync-logo.png?v=10";
 
   try {
     const settings = await getCachedSettings();
     if (settings.site_name) siteName = settings.site_name;
     if (settings.site_description) siteDesc = settings.site_description;
     if (settings.seo_keywords) keywords = settings.seo_keywords;
-    if (settings.seo_og_image) ogImage = settings.seo_og_image;
-    if (settings.appearance_favicon) favicon = settings.appearance_favicon;
+    if (settings.seo_og_image && settings.seo_og_image.startsWith('http')) ogImage = settings.seo_og_image;
+    if (settings.appearance_favicon && settings.appearance_favicon.startsWith('http')) favicon = settings.appearance_favicon;
   } catch (e) {
     console.error("Error fetching SEO settings:", e);
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://game-zync.vercel.app';
-  const logoUrl = (favicon || `${siteUrl}/gamezync-logo.png`) + '?v=3';
-  const shareImageUrl = (ogImage || `${siteUrl}/og-image.jpg`) + '?v=3';
+  const logoUrl = favicon.startsWith('http') ? favicon : `${siteUrl}${favicon}`;
+  const shareImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
 
   return {
     metadataBase: new URL(siteUrl),
@@ -55,12 +55,13 @@ export async function generateMetadata() {
     keywords: keywords,
     icons: {
       icon: [
-        { url: '/favicon.ico?v=3' },
-        { url: '/gamezync-logo.png?v=3', type: 'image/png' },
-        { url: '/icon-192.png?v=3', sizes: '192x192', type: 'image/png' },
+        { url: '/favicon.ico?v=10' },
+        { url: '/favicon.png?v=10', type: 'image/png' },
+        { url: '/gamezync-logo.png?v=10', type: 'image/png' },
+        { url: '/icon-192.png?v=10', sizes: '192x192', type: 'image/png' },
       ],
-      shortcut: '/gamezync-logo.png?v=3',
-      apple: '/icon-512.png?v=3',
+      shortcut: '/favicon.ico?v=10',
+      apple: '/icon-512.png?v=10',
     },
     robots: {
       index: true,
