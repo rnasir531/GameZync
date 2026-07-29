@@ -22,7 +22,7 @@ export default async function LatestGames() {
         subtitle="Fresh Arrivals"
         icon="fa-solid fa-fire"
         games={latestGames}
-        showSwitcher={false}
+        showSwitcher={true}
         viewAllLink="/library?sort=latest"
       />
     );

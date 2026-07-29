@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import FeaturedCarousel from '../components/home/FeaturedCarousel';
-import GlobalHomeViewSwitcher from '../components/home/GlobalHomeViewSwitcher';
 import LatestGames from '../components/home/LatestGames';
 
 const InstantGames = dynamic(() => import('../components/home/InstantGames'), { loading: () => <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-muted)' }}>Loading instant games...</div> });
@@ -33,9 +32,6 @@ export default function Home() {
       <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading featured games...</div>}>
         <FeaturedCarousel />
       </Suspense>
-
-      {/* SINGLE MASTER VIEW SWITCHER RIGHT UNDER CAROUSEL */}
-      <GlobalHomeViewSwitcher />
 
       <div id="home-view-wrapper">
         <Suspense fallback={<div style={{ padding: '40px', textAlign: 'center' }}>Loading latest games...</div>}>
