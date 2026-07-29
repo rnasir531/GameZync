@@ -73,80 +73,82 @@ export default function SystemSpecsForm({
       )}
 
       {scanState === 'detected' && !isMobile && (
-        <div id="matcherDetectedState" style={{ padding: '10px 0' }}>
-          <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-            <div 
-              style={{ 
-                width: '60px', 
-                height: '60px', 
-                borderRadius: '50%', 
-                background: 'rgba(16, 185, 129, 0.14)', 
-                border: '2px solid #10b981', 
-                display: 'inline-flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                marginBottom: '12px', 
-                boxShadow: '0 0 25px rgba(16, 185, 129, 0.35)' 
-              }}
-            >
-              <i className="fa-solid fa-check" style={{ fontSize: '26px', color: '#10b981' }}></i>
+        <div className="matcher-card" style={{ padding: '36px 32px', position: 'relative', overflow: 'hidden' }}>
+          <div id="matcherDetectedState">
+            <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+              <div 
+                style={{ 
+                  width: '60px', 
+                  height: '60px', 
+                  borderRadius: '50%', 
+                  background: 'rgba(16, 185, 129, 0.14)', 
+                  border: '2px solid #10b981', 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  marginBottom: '12px', 
+                  boxShadow: '0 0 25px rgba(16, 185, 129, 0.35)' 
+                }}
+              >
+                <i className="fa-solid fa-check" style={{ fontSize: '26px', color: '#10b981' }}></i>
+              </div>
+              <h3 style={{ color: 'var(--text-color)', fontWeight: 900, fontFamily: 'var(--font-heading)', fontSize: '1.75rem', margin: '0 0 4px', letterSpacing: '-0.5px' }}>
+                Scan Complete
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', margin: 0, fontWeight: '500' }}>
+                Hardware specifications detected successfully.
+              </p>
             </div>
-            <h3 style={{ color: 'var(--text-color)', fontWeight: 900, fontFamily: 'var(--font-heading)', fontSize: '1.75rem', margin: '0 0 4px', letterSpacing: '-0.5px' }}>
-              Scan Complete
-            </h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', margin: 0, fontWeight: '500' }}>
-              Hardware specifications detected successfully.
-            </p>
-          </div>
-          
-          <div className="compact-specs-panel">
-            <div className="spec-item">
-              <div className="spec-icon"><i className="fa-brands fa-windows"></i></div>
-              <div className="spec-info">
-                <span className="spec-label">Operating System</span>
-                <span className="spec-value" title={specs.os_raw || specs.os || 'Windows OS'}>{specs.os_raw || specs.os || 'Windows 10/11 64-bit'}</span>
+            
+            <div className="compact-specs-panel">
+              <div className="spec-item">
+                <div className="spec-icon"><i className="fa-brands fa-windows"></i></div>
+                <div className="spec-info">
+                  <span className="spec-label">Operating System</span>
+                  <span className="spec-value" title={specs.os_raw || specs.os || 'Windows OS'}>{specs.os_raw || specs.os || 'Windows 10/11 64-bit'}</span>
+                </div>
+              </div>
+              <div className="spec-item">
+                <div className="spec-icon"><i className="fa-solid fa-microchip"></i></div>
+                <div className="spec-info">
+                  <span className="spec-label">Processor (CPU)</span>
+                  <span className="spec-value" title={specs.processor_raw || specs.processor || 'CPU'}>{specs.processor_raw || specs.processor || 'Intel Core i5-6200U @ 2.30GHz'}</span>
+                </div>
+              </div>
+              <div className="spec-item">
+                <div className="spec-icon"><i className="fa-solid fa-vr-cardboard"></i></div>
+                <div className="spec-info">
+                  <span className="spec-label">Graphics Card (GPU)</span>
+                  <span className="spec-value" title={specs.graphics_raw || specs.graphics || 'GPU'}>{specs.graphics_raw || specs.graphics || 'Intel(R) HD Graphics 520'}</span>
+                </div>
+              </div>
+              <div className="spec-item">
+                <div className="spec-icon"><i className="fa-solid fa-memory"></i></div>
+                <div className="spec-info">
+                  <span className="spec-label">System Memory (RAM)</span>
+                  <span className="spec-value" title={specs.ram_raw || 'RAM'}>{specs.ram_raw || (specs.ram ? `${specs.ram} GB` : '16 GB')}</span>
+                </div>
               </div>
             </div>
-            <div className="spec-item">
-              <div className="spec-icon"><i className="fa-solid fa-microchip"></i></div>
-              <div className="spec-info">
-                <span className="spec-label">Processor (CPU)</span>
-                <span className="spec-value" title={specs.processor_raw || specs.processor || 'CPU'}>{specs.processor_raw || specs.processor || 'Intel Core i5-6200U @ 2.30GHz'}</span>
-              </div>
-            </div>
-            <div className="spec-item">
-              <div className="spec-icon"><i className="fa-solid fa-vr-cardboard"></i></div>
-              <div className="spec-info">
-                <span className="spec-label">Graphics Card (GPU)</span>
-                <span className="spec-value" title={specs.graphics_raw || specs.graphics || 'GPU'}>{specs.graphics_raw || specs.graphics || 'Intel(R) HD Graphics 520'}</span>
-              </div>
-            </div>
-            <div className="spec-item">
-              <div className="spec-icon"><i className="fa-solid fa-memory"></i></div>
-              <div className="spec-info">
-                <span className="spec-label">System Memory (RAM)</span>
-                <span className="spec-value" title={specs.ram_raw || 'RAM'}>{specs.ram_raw || (specs.ram ? `${specs.ram} GB` : '16 GB')}</span>
-              </div>
-            </div>
-          </div>
 
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginTop: '30px' }}>
-            <button 
-              type="button" 
-              className="matcher-btn" 
-              onClick={onRescanClick} 
-              style={{ marginTop: 0, background: 'rgba(255, 255, 255, 0.06)', border: '1px solid var(--border-color)', color: 'var(--text-color)', padding: '12px 28px', borderRadius: '50px', fontSize: '0.95rem', fontWeight: '700', cursor: 'pointer', transition: 'all 0.25s ease' }}
-            >
-              <i className="fa-solid fa-rotate-right me-2"></i> Rescan PC
-            </button>
-            <button 
-              type="submit" 
-              className="matcher-btn" 
-              disabled={isFinding} 
-              style={{ marginTop: 0, background: 'var(--accent-gradient)', color: '#ffffff', border: 'none', padding: '12px 34px', borderRadius: '50px', fontSize: '0.95rem', fontWeight: '800', cursor: 'pointer', boxShadow: '0 4px 18px var(--primary-glow)', transition: 'all 0.25s ease' }}
-            >
-              {isFinding ? <><i className="fa-solid fa-spinner fa-spin me-2"></i> Finding Games...</> : <><i className="fa-solid fa-magnifying-glass me-2"></i> Find Compatible Games</>}
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginTop: '30px' }}>
+              <button 
+                type="button" 
+                className="matcher-btn" 
+                onClick={onRescanClick} 
+                style={{ marginTop: 0, background: 'rgba(255, 255, 255, 0.06)', border: '1px solid var(--border-color)', color: 'var(--text-color)', padding: '12px 28px', borderRadius: '50px', fontSize: '0.95rem', fontWeight: '700', cursor: 'pointer', transition: 'all 0.25s ease' }}
+              >
+                <i className="fa-solid fa-rotate-right me-2"></i> Rescan PC
+              </button>
+              <button 
+                type="submit" 
+                className="matcher-btn" 
+                disabled={isFinding} 
+                style={{ marginTop: 0, background: 'var(--accent-gradient)', color: '#ffffff', border: 'none', padding: '12px 34px', borderRadius: '50px', fontSize: '0.95rem', fontWeight: '800', cursor: 'pointer', boxShadow: '0 4px 18px var(--primary-glow)', transition: 'all 0.25s ease' }}
+              >
+                {isFinding ? <><i className="fa-solid fa-spinner fa-spin me-2"></i> Finding Games...</> : <><i className="fa-solid fa-magnifying-glass me-2"></i> Find Compatible Games</>}
+              </button>
+            </div>
           </div>
         </div>
       )}
