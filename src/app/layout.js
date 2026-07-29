@@ -26,23 +26,19 @@ export async function generateMetadata() {
   let siteName = "GameZync";
   let siteDesc = "The ultimate PC gaming platform. Sync your hardware specs, play instant web games, and download PC titles.";
   let keywords = "";
-  let ogImage = "/og-image.jpg?v=20";
-  let favicon = "/gamezync-logo.png?v=20";
 
   try {
     const settings = await getCachedSettings();
     if (settings.site_name) siteName = settings.site_name;
     if (settings.site_description) siteDesc = settings.site_description;
     if (settings.seo_keywords) keywords = settings.seo_keywords;
-    if (settings.seo_og_image && settings.seo_og_image.startsWith('http')) ogImage = settings.seo_og_image;
-    if (settings.appearance_favicon && settings.appearance_favicon.startsWith('http')) favicon = settings.appearance_favicon;
   } catch (e) {
     console.error("Error fetching SEO settings:", e);
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://game-zync.vercel.app';
-  const logoUrl = favicon.startsWith('http') ? favicon : `${siteUrl}${favicon}`;
-  const shareImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+  const siteUrl = 'https://game-zync.vercel.app';
+  const shareImageUrl = 'https://game-zync.vercel.app/og-image.jpg';
+  const logoUrl = 'https://game-zync.vercel.app/gamezync-logo.png';
 
   return {
     metadataBase: new URL(siteUrl),
@@ -55,13 +51,13 @@ export async function generateMetadata() {
     keywords: keywords,
     icons: {
       icon: [
-        { url: '/favicon.ico?v=20' },
-        { url: '/favicon.png?v=20', type: 'image/png' },
-        { url: '/gamezync-logo.png?v=20', type: 'image/png' },
-        { url: '/icon-192.png?v=20', sizes: '192x192', type: 'image/png' },
+        { url: '/favicon.ico', type: 'image/x-icon' },
+        { url: '/favicon.png', type: 'image/png' },
+        { url: '/gamezync-logo.png', type: 'image/png' },
+        { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
       ],
-      shortcut: '/favicon.ico?v=20',
-      apple: '/icon-512.png?v=20',
+      shortcut: '/favicon.ico',
+      apple: '/icon-512.png',
     },
     robots: {
       index: true,
@@ -82,14 +78,18 @@ export async function generateMetadata() {
       images: [
         {
           url: shareImageUrl,
+          secureUrl: shareImageUrl,
           width: 1200,
           height: 630,
+          type: 'image/jpeg',
           alt: siteName,
         },
         {
           url: logoUrl,
-          width: 500,
-          height: 500,
+          secureUrl: logoUrl,
+          width: 512,
+          height: 512,
+          type: 'image/png',
           alt: siteName,
         }
       ],
