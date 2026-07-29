@@ -1,6 +1,6 @@
-export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { getCachedSettings } from '@/lib/getSettings';
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {

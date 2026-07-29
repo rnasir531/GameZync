@@ -1,7 +1,7 @@
-export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import db from '@/lib/db';
+export const dynamic = 'force-dynamic';
 
 const SECRET = process.env.DOWNLOAD_SECRET || 'playfusion-secure-download-secret-2026';
 

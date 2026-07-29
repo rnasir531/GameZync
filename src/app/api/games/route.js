@@ -1,7 +1,7 @@
-export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
+import { query } from '@/lib/db';
+export const dynamic = 'force-dynamic';
 
-import prisma from '@/lib/prisma';
 
 export async function GET(request) {
   try {
@@ -9,13 +9,15 @@ export async function GET(request) {
     const limit = parseInt(searchParams.get('limit')) || 20;
     const isFeatured = searchParams.get('featured') === 'true';
 
-    const games = await prisma.game.findMany({
-      where: isFeatured ? { is_featured: 1, status: 'published' } : { status: 'published' },
-      orderBy: { created_at: 'desc' },
-      take: limit,
-    });
+    let sql = 'SELECT * FROM games WHERE status = $1 ORDER BY created_at DESC LIMIT $2';
+    let params = ['published', limit];
 
-    return NextResponse.json({ success: true, data: games });
+    if (isFeatured) {
+      sql = 'SELECT * FROM games WHERE status = $1 AND is_featured = 1 ORDER BY created_at DESC LIMIT $2';
+    }
+
+    const res = await query(sql, params);
+    return NextResponse.json({ success: true, data: res.rows });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
