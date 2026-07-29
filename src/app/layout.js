@@ -26,8 +26,8 @@ export async function generateMetadata() {
   let siteName = "GameZync";
   let siteDesc = "The ultimate PC gaming platform. Sync your hardware specs, play instant web games, and download PC titles.";
   let keywords = "";
-  let ogImage = "/og-image.jpg?v=15";
-  let favicon = "/gamezync-logo.png?v=15";
+  let ogImage = "/og-image.jpg?v=20";
+  let favicon = "/gamezync-logo.png?v=20";
 
   try {
     const settings = await getCachedSettings();
@@ -55,13 +55,13 @@ export async function generateMetadata() {
     keywords: keywords,
     icons: {
       icon: [
-        { url: '/favicon.ico?v=15' },
-        { url: '/favicon.png?v=15', type: 'image/png' },
-        { url: '/gamezync-logo.png?v=15', type: 'image/png' },
-        { url: '/icon-192.png?v=15', sizes: '192x192', type: 'image/png' },
+        { url: '/favicon.ico?v=20' },
+        { url: '/favicon.png?v=20', type: 'image/png' },
+        { url: '/gamezync-logo.png?v=20', type: 'image/png' },
+        { url: '/icon-192.png?v=20', sizes: '192x192', type: 'image/png' },
       ],
-      shortcut: '/favicon.ico?v=15',
-      apple: '/icon-512.png?v=15',
+      shortcut: '/favicon.ico?v=20',
+      apple: '/icon-512.png?v=20',
     },
     robots: {
       index: true,
