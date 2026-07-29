@@ -1,0 +1,343 @@
+.instant-games-section {
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.instant-header {
+    margin-bottom: 30px;
+}
+.instant-games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+}
+.instant-card {
+    background: var(--card-bg);
+    border-radius: var(--component-radius);
+
+    overflow: hidden;
+    box-shadow: var(--component-shadow);
+
+
+    border: 1px solid var(--border-color);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s, border-color 0.3s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+.instant-card:hover {
+    box-shadow: var(--component-shadow);
+
+
+    border-color: rgba(108, 92, 231, 0.3);
+}
+.instant-img-wrapper {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+.instant-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.instant-card:hover .instant-img-wrapper img {
+}
+.instant-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(108, 92, 231, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.instant-card:hover .instant-overlay {
+    opacity: 1;
+}
+.instant-play-trigger-btn {
+    width: 130px;
+    padding: 12px 20px;
+    border-radius: var(--component-radius);
+
+    background: var(--card-bg);
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary-color);
+    box-shadow: var(--component-shadow);
+
+
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+.instant-card:hover .instant-play-trigger-btn {
+    transform: scale(1);
+}
+.instant-play-trigger-btn:hover {
+    background: var(--primary-color);
+    color: var(--text-color);
+}
+.instant-details {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+}
+.instant-badge {
+    align-self: flex-start;
+    background: var(--primary-glow);
+    color: var(--primary-color);
+    padding: 4px 10px;
+    border-radius: var(--component-radius);
+
+    font-size: 11px;
+    font-weight: 700;
+}
+.instant-details h3 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-color);
+    letter-spacing: -0.3px;
+}
+.instant-details p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    font-weight: 500;
+    flex-grow: 1;
+}
+.instant-play-row-btn {
+    margin-top: 10px;
+    background: var(--btn-secondary-bg);
+    color: var(--text-color);
+    border: none;
+    padding: 12px 18px;
+    border-radius: var(--component-radius);
+
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+.instant-card:hover .instant-play-row-btn {
+    background: var(--primary-color);
+    color: var(--text-color);
+    box-shadow: var(--component-shadow);
+
+
+}
+.iframe-player-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3000;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: var(--component-backdrop);
+
+
+    -webkit-backdrop-filter: var(--component-backdrop);
+
+
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+.iframe-player-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.iframe-player-container {
+    width: 95%;
+    max-width: 1100px;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--component-radius);
+
+    overflow: hidden;
+    box-shadow: var(--component-shadow);
+
+
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    transform: translateY(40px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.iframe-player-overlay.active .iframe-player-container {
+    transform: translateY(0) scale(1);
+}
+.iframe-player-header {
+    background: var(--topbar-bg);
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+.iframe-game-title {
+    color: var(--text-color);
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+}
+.iframe-close-btn {
+    background: #ef4444;
+    color: var(--text-color);
+    border: none;
+    padding: 8px 18px;
+    border-radius: var(--component-radius);
+
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s;
+    box-shadow: var(--component-shadow);
+
+
+}
+.iframe-close-btn:hover {
+    background: #dc2626;
+
+}
+.iframe-wrapper {
+    flex-grow: 1;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+}
+.iframe-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.instant-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 24px 0 10px;
+}
+.instant-filter-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 7px 16px;
+    border-radius: var(--component-radius);
+
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    white-space: nowrap;
+}
+.instant-filter-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+.instant-filter-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+}
+.instant-count-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 4px 0 18px;
+}
+.instant-count-label strong {
+    color: var(--primary-color);
+}
+.instant-games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+}
+.iframe-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-color);
+    z-index: 10;
+}
+.iframe-fallback-inner {
+    text-align: center;
+    max-width: 400px;
+    padding: 30px;
+    background: var(--card-bg);
+    border-radius: var(--component-radius);
+
+    border: 1px solid var(--border-color);
+    box-shadow: var(--component-shadow);
+
+
+}
+.iframe-fallback-inner i.fa-circle-exclamation {
+    font-size: 48px;
+    color: var(--warning-color);
+    margin-bottom: 16px;
+}
+.iframe-fallback-inner h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+.iframe-fallback-inner p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+.iframe-fallback-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary-color);
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: var(--component-radius);
+
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.iframe-fallback-btn:hover {
+    filter: brightness(1.15);
+
+}
+
+.instant-play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+.instant-card-img:hover .instant-play-overlay { opacity: 1; }

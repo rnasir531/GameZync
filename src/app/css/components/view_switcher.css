@@ -1,0 +1,97 @@
+.view-switcher-bar {
+    display: flex;
+    background: var(--filter-bg);
+    padding: 4px;
+    border-radius: var(--component-radius);
+
+    gap: 4px;
+}
+.view-switcher-btn {
+    border: none;
+    background: transparent;
+    padding: 8px 16px;
+    border-radius: var(--component-radius);
+
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 14px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.view-switcher-btn.active {
+    background: var(--filter-active-bg);
+    color: var(--primary-color);
+    box-shadow: var(--component-shadow);
+
+
+}
+.view-switcher-btn:hover:not(.active) {
+    color: var(--text-color);
+}
+.games-row-section.view-list-active .games-grid-3-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.games-row-section.view-list-active .game-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 14px 20px;
+    gap: 20px;
+    height: auto;
+    opacity: 1;
+    transform: none;
+}
+.games-row-section.view-list-active .game-card-img-wrapper {
+    width: 76px;
+    height: 76px;
+    border-radius: var(--component-radius);
+
+    flex-shrink: 0;
+}
+.games-row-section.view-list-active .game-card-img-wrapper img { height: 100%; }
+.games-row-section.view-list-active .game-details {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+}
+.games-row-section.view-list-active .game-details h3 {
+    font-size: 15px;
+    width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.games-row-section.view-list-active .game-details p {
+    flex-grow: 1;
+    margin: 0;
+}
+.games-row-section.view-list-active .play-btn {
+    margin-top: 0;
+    flex-shrink: 0;
+    padding: 10px 20px;
+}
+.list-only-size {
+    display: none;
+}
+.games-row-section.view-list-active .list-only-size {
+    display: inline-block;
+    color: var(--primary-color);
+    margin-right: 6px;
+    font-weight: 600;
+}
+.games-row-section.view-list-active .game-badge {
+    display: none !important;
+}
+@media (max-width: 768px) {
+    .games-row-section.view-list-active .game-details h3 { width: 140px; }
+    .games-row-section.view-list-active .game-details p { display: none; }
+    .games-row-section.view-list-active .game-card { padding: 12px; gap: 14px; }
+}

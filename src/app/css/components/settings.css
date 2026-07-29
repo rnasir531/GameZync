@@ -1,0 +1,8 @@
+.profile-pic-preview-container:hover .profile-pic-overlay {
+    background: var(--primary-color);
+    color: var(--text-color);
+    font-weight: bold;
+}
+.profile-pic-overlay {
+    transition: all 0.3s ease;
+}

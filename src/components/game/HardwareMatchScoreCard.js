@@ -1,0 +1,163 @@
+'use client';
+import React from 'react';
+
+export default function HardwareMatchScoreCard({ userSpecs, matchResult, isTesting, handleRunTest }) {
+  // IF USER HAS NOT SCANNED PC YET -> DO NOT SHOW ANY PERCENTAGE SCORE RING OR 0%!
+  if (!userSpecs || !userSpecs.gpu || !userSpecs.cpu) {
+    return (
+      <div 
+        className="hardware-match-hero-card" 
+        style={{
+          background: 'var(--card-bg)',
+          border: '1px solid var(--border-color)',
+          borderRadius: '20px',
+          padding: '24px 28px',
+          marginBottom: '32px',
+          backdropFilter: 'blur(16px)',
+          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
+          display: 'flex',
+          alignItems: 'center',
+          justify: 'space-between',
+          flexWrap: 'wrap',
+          gap: '20px'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
+          <div 
+            style={{ 
+              width: '56px', 
+              height: '56px', 
+              borderRadius: '16px', 
+              background: 'rgba(16, 185, 129, 0.12)', 
+              border: '1px solid rgba(16, 185, 129, 0.3)', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justify: 'center',
+              flexShrink: 0
+            }}
+          >
+            <i className="fa-solid fa-microchip" style={{ fontSize: '24px', color: '#10b981' }}></i>
+          </div>
+          <div>
+            <h4 style={{ margin: 0, fontWeight: '800', fontSize: '1.25rem', color: 'var(--text-color)', marginBottom: '4px' }}>
+              Check Hardware Compatibility
+            </h4>
+            <p style={{ margin: 0, fontSize: '13.5px', color: 'var(--text-muted)' }}>
+              Scan your PC specs using System Matcher to see exact percentage compatibility score for this game.
+            </p>
+          </div>
+        </div>
+
+        <button 
+          onClick={handleRunTest} 
+          disabled={isTesting}
+          style={{
+            background: '#10b981',
+            color: '#ffffff',
+            fontWeight: '800',
+            fontSize: '13.5px',
+            borderRadius: '12px',
+            padding: '12px 24px',
+            border: 'none',
+            boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}
+        >
+          {isTesting ? <><i className="fas fa-spinner fa-spin"></i> Scanning PC...</> : <><i className="fa-solid fa-radar"></i> Scan PC Specs</>}
+        </button>
+      </div>
+    );
+  }
+
+  if (!matchResult) return null;
+
+  // ALWAYS RENDER ONLY 1 SINGLE PERCENTAGE SCORE RING!
+  const score = typeof matchResult.minScore === 'number' && !isNaN(matchResult.minScore) 
+    ? Math.min(100, Math.max(0, Math.round(matchResult.minScore))) 
+    : (typeof matchResult.overallScore === 'number' ? matchResult.overallScore : 0);
+
+  const strokeOffset = (283 - (283 * score) / 100).toString();
+  const strokeColor = score >= 70 ? '#10b981' : (score >= 50 ? '#f59e0b' : '#ef4444');
+
+  return (
+    <div 
+      className="hardware-match-hero-card" 
+      style={{
+        background: 'var(--card-bg)',
+        border: '1px solid var(--border-color)',
+        borderRadius: '20px',
+        padding: '24px 28px',
+        marginBottom: '32px',
+        backdropFilter: 'blur(16px)',
+        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)'
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px' }}>
+        
+        {/* SINGLE MATCH SCORE RING */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <div style={{ position: 'relative', width: '76px', height: '76px', flexShrink: 0 }}>
+            <svg width="76" height="76" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="var(--border-color)" strokeWidth="8" />
+              <circle
+                cx="50" cy="50" r="45" fill="none"
+                stroke={strokeColor}
+                strokeWidth="8"
+                strokeDasharray="283"
+                strokeDashoffset={strokeOffset}
+                strokeLinecap="round"
+                transform="rotate(-90 50 50)"
+                style={{ transition: 'stroke-dashoffset 1s ease-in-out' }}
+              />
+            </svg>
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', fontSize: '18px', color: 'var(--text-color)' }}>
+              {score}%
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', color: strokeColor, letterSpacing: '0.5px', marginBottom: '4px' }}>
+              HARDWARE COMPATIBILITY MATCH
+            </div>
+            <div style={{ fontSize: '14.5px', fontWeight: '800', color: 'var(--text-color)' }}>
+              {score >= 70 ? 'Can Run Smoothly' : (score >= 50 ? 'Playable on Low/Medium' : 'Below Required Specifications')}
+            </div>
+          </div>
+        </div>
+
+        {/* RE-SCAN BUTTON (EXPLICIT EMERALD BRANDING) */}
+        <button 
+          onClick={handleRunTest} 
+          disabled={isTesting}
+          style={{
+            background: '#10b981',
+            color: '#ffffff',
+            fontWeight: '800',
+            fontSize: '13.5px',
+            borderRadius: '12px',
+            padding: '12px 24px',
+            border: 'none',
+            boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}
+        >
+          {isTesting ? <><i className="fas fa-spinner fa-spin"></i> Scanning...</> : <><i className="fa-solid fa-rotate"></i> Re-Scan PC</>}
+        </button>
+      </div>
+
+      {/* USER HARDWARE SPECS LIST */}
+      {userSpecs && (
+        <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--border-color)', display: 'flex', gap: '24px', flexWrap: 'wrap', fontSize: '13px', color: 'var(--text-muted)' }}>
+          <div><strong style={{ color: 'var(--text-color)' }}>GPU:</strong> {userSpecs.gpu}</div>
+          <div><strong style={{ color: 'var(--text-color)' }}>CPU:</strong> {userSpecs.cpu}</div>
+          <div><strong style={{ color: 'var(--text-color)' }}>RAM:</strong> {userSpecs.ram} GB</div>
+        </div>
+      )}
+    </div>
+  );
+}

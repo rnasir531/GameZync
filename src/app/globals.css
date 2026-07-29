@@ -1,0 +1,54 @@
+@import './css/core/variables.css';
+@import './css/core/reset.css';
+@import './css/core/layout.css';
+@import './css/core/style.css';
+@import './css/core/theme.css';
+
+@import './css/components/topbar.css';
+@import './css/components/sidebar.css';
+@import './css/components/buttons.css';
+@import './css/components/view_switcher.css';
+@import './css/components/modal.css';
+@import './css/components/toast.css';
+@import './css/components/faq_home.css';
+@import './css/components/scroll_progress.css';
+
+@import './css/pages/carousel.css';
+@import './css/pages/cards.css';
+@import './css/pages/categories.css';
+@import './css/pages/system_matcher.css';
+@import './css/pages/game_details.css';
+@import './css/pages/favorites.css';
+@import './css/pages/instant_games.css';
+@import './css/pages/static_pages.css';
+@import './css/pages/footer.css';
+
+/* Basic Next.js overrides */
+html, body {
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Disable card upward movement (translateY) on hover across the entire website */
+.game-card:hover, 
+.category-card:hover, 
+.instant-card:hover, 
+.card:hover,
+.matcher-card:hover,
+.details-info-card:hover,
+.req-box:hover {
+  transform: none !important;
+}
+
+@keyframes pulse-skeleton {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+.skeleton-pulse {
+  animation: pulse-skeleton 1.5s ease-in-out infinite;
+}

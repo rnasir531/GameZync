@@ -1,0 +1,217 @@
+/* Global Buttons CSS */
+.btn {
+    border-radius: var(--component-radius);
+
+    font-weight: 600;
+    padding: 10px 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none !important;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--primary-gradient) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: var(--component-shadow);
+
+
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--component-shadow);
+
+
+    filter: brightness(1.15);
+}
+
+.btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: var(--component-shadow);
+
+
+}
+
+/* Sidebar-style Buttons (No Animation) */
+.btn-sidebar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: var(--component-radius);
+
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-muted) !important;
+    text-shadow: var(--component-text-shadow);
+
+
+    background: rgba(255,255,255,0.02) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    transition: all 0.2s ease !important;
+    transform: none !important;
+    box-shadow: var(--component-shadow);
+
+
+}
+
+.btn-sidebar i {
+    font-size: 15px;
+    width: 18px;
+    text-align: center;
+    flex-shrink: 0;
+    text-shadow: var(--component-text-shadow);
+
+
+}
+
+.btn-sidebar:hover {
+    color: var(--primary-color) !important;
+    background: var(--primary-glow) !important;
+    box-shadow: var(--component-shadow);
+
+
+    border-color: transparent !important;
+    transform: none !important; /* No animation */
+}
+
+/* Specific Buttons */
+.view-all-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    width: 104px;
+    height: 38px;
+    border-radius: var(--component-radius);
+
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none !important;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--component-shadow);
+
+
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+.view-all-btn:hover {
+    background: var(--primary-gradient);
+    color: #fff !important;
+    border-color: transparent;
+    box-shadow: var(--component-shadow);
+
+
+    transform: translateY(-2px) scale(1.02);
+    text-decoration: none !important;
+}
+.view-all-btn:active {
+    transform: translateY(2px);
+    box-shadow: var(--component-shadow);
+
+
+}
+.cookie-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(150%);
+    width: 90%;
+    max-width: 600px;
+    background: rgba(26, 29, 37, 0.95);
+    backdrop-filter: var(--component-backdrop);
+
+
+    border: 1px solid var(--primary-light);
+    border-radius: var(--component-radius);
+
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 9999;
+    box-shadow: var(--component-shadow);
+
+
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.cookie-banner.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+.cookie-content { display: flex; align-items: flex-start; gap: 15px; }
+.cookie-icon {
+    font-size: 24px;
+    color: var(--primary-color);
+    background: rgba(0, 200, 83, 0.1);
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.cookie-text h4 { font-size: 16px; font-weight: 700; margin-bottom: 5px; color: var(--text-color); }
+.cookie-text p { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+.cookie-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    width: 100%;
+}
+.cookie-btn {
+    padding: 10px 20px;
+    border-radius: var(--component-radius);
+
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+.cookie-decline {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+}
+.cookie-decline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+}
+.cookie-accept {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: var(--component-shadow);
+
+
+}
+.cookie-accept:hover {
+    filter: brightness(1.15);
+    box-shadow: var(--component-shadow);
+
+
+    transform: translateY(-2px) scale(1.02);
+}
+@media (min-width: 600px) {
+    .cookie-banner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 800px;
+        padding: 15px 25px;
+    }
+    .cookie-actions { width: auto; flex-shrink: 0; }
+}

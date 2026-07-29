@@ -1,0 +1,128 @@
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import "./globals.css";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import GlobalLayoutWrapper from "@/components/GlobalLayoutWrapper";
+import { getCachedSettings } from "@/lib/getSettings";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"]
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"]
+});
+
+export const dynamic = 'force-dynamic';
+
+export const viewport = {
+  themeColor: '#10b981',
+};
+
+export async function generateMetadata() {
+  let siteName = "GameZync";
+  let siteDesc = "The ultimate PC gaming platform. Sync your hardware specs, play instant web games, and download PC titles.";
+  let keywords = "";
+  let ogImage = "";
+  let favicon = "";
+
+  try {
+    const settings = await getCachedSettings();
+    if (settings.site_name) siteName = settings.site_name;
+    if (settings.site_description) siteDesc = settings.site_description;
+    if (settings.seo_keywords) keywords = settings.seo_keywords;
+    if (settings.seo_og_image) ogImage = settings.seo_og_image;
+    if (settings.appearance_favicon) favicon = settings.appearance_favicon;
+  } catch (e) {
+    console.error("Error fetching SEO settings:", e);
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+  return {
+    metadataBase: new URL(siteUrl),
+    manifest: '/manifest.json',
+    title: {
+      template: '%s | ' + siteName,
+      default: siteName,
+    },
+    description: siteDesc,
+    keywords: keywords,
+    icons: favicon ? { icon: favicon, shortcut: favicon, apple: favicon } : undefined,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    openGraph: {
+      title: siteName,
+      description: siteDesc,
+      url: siteUrl,
+      siteName: siteName,
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: siteName }] : [],
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: siteName,
+      description: siteDesc,
+      images: ogImage ? [ogImage] : [],
+    },
+    alternates: {
+      canonical: '/',
+    },
+  };
+}
+
+export default async function RootLayout({ children }) {
+  let googleAnalyticsId = "";
+  let siteSettings = {};
+  
+  try {
+    siteSettings = await getCachedSettings();
+    if (siteSettings.seo_google_analytics) {
+      googleAnalyticsId = siteSettings.seo_google_analytics.trim();
+    }
+  } catch (e) {
+    console.error("Error fetching settings in layout:", e);
+  }
+
+  const bodyClass = siteSettings.nav_sidebar_splitter === 'true' ? "nav-splitter-on" : "";
+
+  return (
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${inter.variable} ${jakarta.variable}`}>
+      <head>
+        <meta httpEquiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https:; script-src-elem 'self' 'unsafe-inline' 'unsafe-eval' blob: https:; worker-src 'self' blob:; frame-src 'self' https: blob:; child-src 'self' https: blob:; default-src 'self' http: https: data: blob: 'unsafe-inline' 'unsafe-eval';" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon-192.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        {googleAnalyticsId ? (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
+            <script dangerouslySetInnerHTML={{__html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${googleAnalyticsId}',{page_path:window.location.pathname});`}} />
+          </>
+        ) : null}
+      </head>
+      <body suppressHydrationWarning className={`${bodyClass} frontend-app`.trim()}>
+        <GlobalLayoutWrapper siteSettings={siteSettings}>
+          {children}
+        </GlobalLayoutWrapper>
+      </body>
+    </html>
+  );
+}

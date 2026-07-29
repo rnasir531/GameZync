@@ -1,0 +1,106 @@
+:root {
+    --color-dark-navy: #07090e;
+    --color-dark-gray: #121926;
+    --color-teal-accent: #10b981;
+    --color-light-gray: #f8fafc;
+    
+    /* 🏛️ Decent Minimalist Porcelain Sapphire Light Mode Palette (Ultra-Clean & Elegant) */
+    --bg-color: #f8fafc;
+    --bg-mesh-texture: 
+        radial-gradient(circle at 10% 12%, rgba(59, 130, 246, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 90% 18%, rgba(139, 92, 246, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 75%, rgba(16, 185, 129, 0.10) 0%, transparent 50%),
+        radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+        linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%),
+        url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='1' fill='%230f172a' fill-opacity='0.06'/%3E%3C/svg%3E");
+    
+    --text-color: #0f172a; 
+    --text-muted: #475569;
+    
+    --primary-color: #2563eb;
+    --primary-light: #3b82f6;
+    --primary-icon-color: #2563eb;
+    --accent-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    --primary-gradient: linear-gradient(135deg, #2563eb 0%, #0284c7 100%);
+    --primary-glow: rgba(37, 99, 235, 0.25);
+    
+    --glass-bg: rgba(255, 255, 255, 0.96);
+    --card-bg: #ffffff;
+    --topbar-bg: rgba(255, 255, 255, 0.96);
+    --sidebar-bg: rgba(255, 255, 255, 0.96);
+    --panel-texture: none;
+    --panel-gradient: #ffffff;
+    
+    --border-color: #cbd5e1; 
+    --search-bg: #f1f5f9;
+    --btn-secondary-bg: #e2e8f0; 
+    --btn-secondary-text: #0f172a;
+    --filter-bg: #e2e8f0;
+    --filter-active-bg: #2563eb;
+    
+    --badge-bg: rgba(37, 99, 235, 0.08);
+    --badge-text: #1d4ed8;
+    
+    --hover-bg: rgba(37, 99, 235, 0.06);
+    --shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+    --shadow-hover: 0 12px 30px rgba(37, 99, 235, 0.16);
+    
+    --success-color: #059669;
+    --warning-color: #d97706;
+    --danger-color: #dc2626;
+    --info-color: #2563eb;
+    --star-color: #d97706;
+    
+    --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+    --component-radius: 12px;
+}
+
+body.dark-theme {
+    /* 🌙 Cyber Obsidian Dark Mode - Cyber Gaming Grid & Multi-Neon Mesh */
+    --bg-color: #07090e;
+    --bg-mesh-texture: 
+        radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.25) 0%, transparent 45%),
+        radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.25) 0%, transparent 45%),
+        radial-gradient(circle at 50% 70%, rgba(217, 70, 239, 0.20) 0%, transparent 50%),
+        radial-gradient(circle at 80% 85%, rgba(16, 185, 129, 0.16) 0%, transparent 40%),
+        linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(6, 182, 212, 0.05) 100%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.035'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    
+    --text-color: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --primary-color: #10b981;
+    --primary-light: #34d399;
+    --primary-icon-color: #10b981;
+    --accent-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+    --primary-gradient: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+    --primary-glow: rgba(16, 185, 129, 0.45);
+    
+    --glass-bg: rgba(16, 22, 34, 0.88);
+    --card-bg: rgba(18, 25, 38, 0.92);
+    --topbar-bg: rgba(10, 14, 22, 0.88);
+    --sidebar-bg: rgba(10, 14, 22, 0.88);
+    --panel-gradient: rgba(18, 25, 38, 0.88);
+    --panel-texture: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+    
+    --border-color: rgba(255, 255, 255, 0.1);
+    --search-bg: rgba(16, 22, 34, 0.95);
+    --btn-secondary-bg: rgba(255, 255, 255, 0.07);
+    --btn-secondary-text: #f8fafc;
+    --filter-bg: rgba(16, 22, 34, 0.95);
+    --filter-active-bg: #10b981;
+    
+    --badge-bg: rgba(16, 185, 129, 0.15);
+    --badge-text: #34d399;
+    
+    --hover-bg: rgba(16, 185, 129, 0.1);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --shadow-hover: 0 16px 45px rgba(16, 185, 129, 0.35);
+    
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #3b82f6;
+    --star-color: #fbbf24;
+}
