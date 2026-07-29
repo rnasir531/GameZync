@@ -51,7 +51,11 @@ export async function generateMetadata() {
     },
     description: siteDesc,
     keywords: keywords,
-    icons: favicon ? { icon: favicon, shortcut: favicon, apple: favicon } : undefined,
+    icons: {
+      icon: favicon || '/gamezync-logo.png',
+      shortcut: favicon || '/gamezync-logo.png',
+      apple: favicon || '/gamezync-logo.png',
+    },
     robots: {
       index: true,
       follow: true,
@@ -68,7 +72,7 @@ export async function generateMetadata() {
       description: siteDesc,
       url: siteUrl,
       siteName: siteName,
-      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: siteName }] : [],
+      images: [{ url: ogImage || '/og-image.jpg', width: 1200, height: 630, alt: siteName }],
       locale: 'en_US',
       type: 'website',
     },
@@ -76,7 +80,7 @@ export async function generateMetadata() {
       card: 'summary_large_image',
       title: siteName,
       description: siteDesc,
-      images: ogImage ? [ogImage] : [],
+      images: [ogImage || '/og-image.jpg'],
     },
     alternates: {
       canonical: '/',

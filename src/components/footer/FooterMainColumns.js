@@ -12,6 +12,7 @@ export default function FooterMainColumns({ settings }) {
             style={{ 
               display: 'inline-flex',
               alignItems: 'center',
+              gap: '12px',
               padding: '8px 18px',
               borderRadius: '16px',
               background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 182, 212, 0.12) 100%)',
@@ -19,6 +20,18 @@ export default function FooterMainColumns({ settings }) {
               boxShadow: '0 0 20px rgba(16, 185, 129, 0.25)'
             }}
           >
+            <img 
+              src="/gamezync-logo.png" 
+              alt="GameZync Logo" 
+              style={{ 
+                width: '36px', 
+                height: '36px', 
+                borderRadius: '50%',
+                objectFit: 'cover',
+                border: '1.5px solid rgba(16, 185, 129, 0.5)',
+                boxShadow: '0 0 12px rgba(16, 185, 129, 0.3)'
+              }} 
+            />
             <span 
               style={{ 
                 fontSize: '1.5rem', 

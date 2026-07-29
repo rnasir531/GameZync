@@ -10,11 +10,23 @@ export default function HeaderLogo({ settings }) {
         cursor: 'pointer', 
         display: 'inline-flex', 
         alignItems: 'center', 
+        gap: '10px',
         textDecoration: 'none', 
         flexShrink: 0 
       }}
     >
-      {/* Sleek Adaptive Theme Badge Container */}
+      <img 
+        src="/gamezync-logo.png" 
+        alt="GameZync Logo" 
+        style={{ 
+          width: '38px', 
+          height: '38px', 
+          borderRadius: '50%',
+          objectFit: 'cover',
+          border: '1.5px solid rgba(16, 185, 129, 0.5)',
+          boxShadow: '0 0 14px rgba(16, 185, 129, 0.35)'
+        }} 
+      />
       <div className="header-logo-badge">
         <span className="logo-brand-text">
           <span style={{ color: 'var(--text-color)', fontWeight: '900' }}>GAME</span>
