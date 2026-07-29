@@ -7,18 +7,41 @@ export default function FooterMainColumns({ settings }) {
       {/* COL 1: BRAND & BIO */}
       <div className="footer-col footer-brand-col">
         <Link href="/" style={{ textDecoration: 'none' }}>
-          <img 
-            src="/gamezync-banner-logo.png" 
-            alt="GameZync" 
+          <div 
+            className="footer-logo" 
             style={{ 
-              height: '46px', 
-              width: 'auto',
-              maxWidth: '220px',
-              objectFit: 'contain',
-              display: 'block',
-              filter: 'drop-shadow(0 0 14px rgba(16, 185, 129, 0.35))'
-            }} 
-          />
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '8px 18px',
+              borderRadius: '16px',
+              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 182, 212, 0.12) 100%)',
+              border: '1.5px solid rgba(16, 185, 129, 0.45)',
+              boxShadow: '0 0 20px rgba(16, 185, 129, 0.25)'
+            }}
+          >
+            <span 
+              style={{ 
+                fontSize: '1.5rem', 
+                fontWeight: '900', 
+                letterSpacing: '1.5px', 
+                fontFamily: 'var(--font-jakarta), var(--font-inter), sans-serif',
+                display: 'inline-flex',
+                alignItems: 'center',
+                lineHeight: '1'
+              }}
+            >
+              <span style={{ color: 'var(--text-color)' }}>GAME</span>
+              <span style={{ 
+                background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: '900',
+                filter: 'drop-shadow(0 0 12px rgba(16, 185, 129, 0.4))'
+              }}>
+                ZYNC
+              </span>
+            </span>
+          </div>
         </Link>
         
         <p className="footer-tagline">
