@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 export default function InstantGameDetailView({ activeGame, allGames }) {
   const router = useRouter();
   const iframeRef = useRef(null);
+  const [isLoadingFrame, setIsLoadingFrame] = useState(true);
 
   // Generate 10 random suggested games excluding current game
   const [suggestedGames, setSuggestedGames] = useState(() => {
@@ -28,6 +29,8 @@ export default function InstantGameDetailView({ activeGame, allGames }) {
   const handleSelectSuggested = (game) => {
     router.push(`/instant/${game.id}`);
   };
+
+  const playUrl = activeGame?.embed_url || activeGame?.url || '';
 
   return (
     <section className="instant-game-detail-container" style={{ animation: 'fadeInUp 0.5s ease', maxWidth: '1280px', margin: '0 auto', padding: '20px 15px' }}>
@@ -69,23 +72,45 @@ export default function InstantGameDetailView({ activeGame, allGames }) {
             </div>
           </div>
 
-          <button 
-            onClick={toggleFullscreen} 
-            className="player-btn fullscreen-btn"
-            style={{ background: 'var(--primary-gradient)', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: '10px', fontWeight: '700', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 12px rgba(16,185,129,0.3)' }}
-          >
-            <i className="fa-solid fa-expand"></i> Fullscreen
-          </button>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            {playUrl && (
+              <a
+                href={playUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', padding: '10px 18px', borderRadius: '10px', fontWeight: '700', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}
+              >
+                <i className="fa-solid fa-arrow-up-right-from-square"></i> Open Direct
+              </a>
+            )}
+            <button 
+              onClick={toggleFullscreen} 
+              className="player-btn fullscreen-btn"
+              style={{ background: 'var(--primary-gradient)', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: '10px', fontWeight: '700', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 12px rgba(16,185,129,0.3)' }}
+            >
+              <i className="fa-solid fa-expand"></i> Fullscreen
+            </button>
+          </div>
         </div>
 
-        {/* IFRAME WRAPPER */}
-        <div className="player-iframe-wrapper" ref={iframeRef} style={{ position: 'relative', width: '100%', aspectRatio: '16/9', minHeight: '480px', background: '#000' }}>
+        {/* IFRAME WRAPPER WITH LOADING SPINNER OVERLAY */}
+        <div className="player-iframe-wrapper" ref={iframeRef} style={{ position: 'relative', width: '100%', aspectRatio: '16/9', minHeight: '520px', background: '#090d16' }}>
+          {isLoadingFrame && (
+            <div style={{ position: 'absolute', inset: 0, background: '#090d16', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '14px', zIndex: 10 }}>
+              <div style={{ width: '48px', height: '48px', border: '4px solid rgba(16,185,129,0.2)', borderTopColor: '#10b981', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+              <span style={{ color: '#cbd5e1', fontWeight: '700', fontSize: '14px', letterSpacing: '0.5px' }}>
+                <i className="fa-solid fa-gamepad me-2 text-emerald-400"></i> Loading Game Canvas...
+              </span>
+            </div>
+          )}
           <iframe
-            src={activeGame.embed_url || activeGame.url}
+            src={playUrl}
             title={activeGame.name || activeGame.title}
-            allow="autoplay; fullscreen; keyboard; gamepad"
+            allow="autoplay; fullscreen; microphone; camera; midi; encrypted-media; floor-pointer; geolocation; gyroscope; accelerometer"
             allowFullScreen
-            style={{ width: '100%', height: '100%', border: 'none' }}
+            referrerPolicy="no-referrer-when-downgrade"
+            onLoad={() => setIsLoadingFrame(false)}
+            style={{ width: '100%', height: '100%', border: 'none', minHeight: '520px' }}
           />
         </div>
 
