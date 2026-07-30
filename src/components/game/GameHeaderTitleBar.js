@@ -95,7 +95,7 @@ export default function GameHeaderTitleBar({ game }) {
             }}
             title={`View all games released in ${game.release_year}`}
           >
-            <i className="fa-regular fa-calendar" style={{ color: '#10b981', fontSize: '12px' }}></i> {game.release_year}
+            <i className="fa-regular fa-calendar" style={{ color: '#10b981', fontSize: '12px' }}></i> Release Year: {game.release_year}
           </Link>
         )}
 
@@ -122,7 +122,7 @@ export default function GameHeaderTitleBar({ game }) {
             title={game.developer_publisher}
           >
             <i className="fa-solid fa-building" style={{ color: '#10b981', fontSize: '12px', flexShrink: 0 }}></i> 
-            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{game.developer_publisher}</span>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Developer: {game.developer_publisher}</span>
           </div>
         )}
 
