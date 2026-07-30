@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
-import { query } from '@/lib/db';
+import { getCategories } from '@/services/categoryService';
 export const dynamic = 'force-dynamic';
 
-
-export async function GET(req) {
+export async function GET() {
   try {
-    const res = await query('SELECT * FROM categories ORDER BY name ASC');
-    return NextResponse.json({ success: true, data: res.rows });
+    const data = await getCategories();
+    return NextResponse.json({ success: true, data });
   } catch (e) {
     return NextResponse.json({ success: false, error: e.message }, { status: 500 });
   }

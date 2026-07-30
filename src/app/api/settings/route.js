@@ -1,29 +1,13 @@
 import { NextResponse } from 'next/server';
-import { getCachedSettings } from '@/lib/getSettings';
+import { getSettings, getPublicSettings } from '@/services/settingsService';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const allSettings = await getCachedSettings();
-    const publicSettings = {};
-
-    Object.keys(allSettings).forEach(key => {
-      if (
-        key.startsWith('social_') ||
-        key.startsWith('appearance_') ||
-        key.startsWith('seo_') ||
-        key === 'site_name' ||
-        key === 'site_description' ||
-        key === 'contact_email'
-      ) {
-        publicSettings[key] = allSettings[key];
-      }
-    });
-
+    const allSettings = await getSettings();
+    const publicSettings = getPublicSettings(allSettings);
     return NextResponse.json(publicSettings, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400'
-      }
+      headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' }
     });
   } catch (error) {
     console.error('Public Settings API Error:', error);

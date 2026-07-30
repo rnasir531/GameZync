@@ -1,53 +1,23 @@
 import { NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import { SignJWT } from 'jose';
-
-import prisma from '@/lib/prisma';
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback_secret_for_local_dev');
+import { loginAdmin } from '@/services/authService';
+import { SESSION_COOKIE_NAME, SESSION_DURATION_SECONDS } from '@/config/database';
 
 export async function POST(request) {
   try {
     const { username, password } = await request.json();
+    const result = await loginAdmin(username, password);
 
-    if (!username || !password) {
-      return NextResponse.json({ error: 'Username and password are required' }, { status: 400 });
+    if (result.error) {
+      return NextResponse.json({ error: result.error }, { status: 401 });
     }
-
-    const admin = await prisma.adminUser.findUnique({
-      where: { username }
-    });
-
-    if (!admin) {
-      return NextResponse.json({ error: 'Username Or Password Not Matched' }, { status: 401 });
-    }
-
-    const isValid = await bcrypt.compare(password, admin.password);
-
-    if (!isValid) {
-      return NextResponse.json({ error: 'Username Or Password Not Matched' }, { status: 401 });
-    }
-
-    // Create session token
-    const token = await new SignJWT({ 
-      id: admin.id, 
-      username: admin.username, 
-      role: admin.role,
-      fname: admin.first_name,
-      lname: admin.last_name
-    })
-      .setProtectedHeader({ alg: 'HS256' })
-      .setIssuedAt()
-      .setExpirationTime('24h')
-      .sign(JWT_SECRET);
 
     const response = NextResponse.json({ success: true });
-    
-    response.cookies.set('admin_session', token, {
+    response.cookies.set(SESSION_COOKIE_NAME, result.token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 60 * 60 * 24 // 24 hours
+      maxAge: SESSION_DURATION_SECONDS,
     });
 
     return response;
