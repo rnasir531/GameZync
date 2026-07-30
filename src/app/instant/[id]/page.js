@@ -1,4 +1,4 @@
-import InstantGamesView from '@/components/instant/InstantGamesView';
+import InstantGameDetailView from '@/components/instant/InstantGameDetailView';
 import db from '@/lib/db';
 import { notFound } from 'next/navigation';
 
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
 export default async function InstantGameDetailPage({ params }) {
   const { id } = await params;
 
-  // 1. Fetch all instant games for catalog & suggestions
+  // Fetch all instant games for player & suggestions
   const { rows: data } = await db.query(`
     SELECT i.*, COALESCE(STRING_AGG(c.name, ', '), i.category) as category
     FROM instant_games i
@@ -40,6 +40,6 @@ export default async function InstantGameDetailPage({ params }) {
   }
 
   return (
-    <InstantGamesView allGames={allGames} initialActiveGame={activeGame} />
+    <InstantGameDetailView activeGame={activeGame} allGames={allGames} />
   );
 }

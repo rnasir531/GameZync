@@ -61,14 +61,7 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
   const cats = Array.from(catsSet);
 
   const handleSelectGame = (game) => {
-    setActiveGame(game);
-    router.push(`/instant/${game.id}`, { scroll: false });
-    setTimeout(() => {
-      const playerElem = document.getElementById('instant-player-hero');
-      if (playerElem) {
-        playerElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
+    router.push(`/instant/${game.id}`);
   };
 
   const handleClosePlayer = () => {
