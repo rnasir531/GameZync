@@ -20,10 +20,12 @@ export function animateThemeToggle(event, currentTheme, setThemeCallback) {
   // Instant clean theme switch (CSS handles smooth 0.3s color cross-fade)
   if (nextTheme === 'dark') {
     document.body.classList.add('dark-theme');
+    document.documentElement.classList.add('dark-theme');
     localStorage.setItem('theme', 'dark');
     if (setThemeCallback) setThemeCallback('dark');
   } else {
     document.body.classList.remove('dark-theme');
+    document.documentElement.classList.remove('dark-theme');
     localStorage.setItem('theme', 'light');
     if (setThemeCallback) setThemeCallback('light');
   }

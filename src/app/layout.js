@@ -135,6 +135,11 @@ export default async function RootLayout({ children }) {
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');var isLight=t==='light';if(isLight){document.documentElement.classList.remove('dark-theme');}else{document.documentElement.classList.add('dark-theme');}}catch(e){}})();`
+          }}
+        />
         {googleAnalyticsId ? (
           <>
             <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
@@ -142,7 +147,7 @@ export default async function RootLayout({ children }) {
           </>
         ) : null}
       </head>
-      <body suppressHydrationWarning className={`${bodyClass} frontend-app`.trim()}>
+      <body suppressHydrationWarning className={`${bodyClass} dark-theme frontend-app`.trim()}>
         <GlobalLayoutWrapper siteSettings={siteSettings}>
           {children}
         </GlobalLayoutWrapper>

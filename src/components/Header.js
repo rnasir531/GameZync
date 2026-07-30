@@ -34,12 +34,15 @@ export default function Header() {
 
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme');
-    if (storedTheme === 'dark' || (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (storedTheme === 'light') {
+      document.body.classList.remove('dark-theme');
+      document.documentElement.classList.remove('dark-theme');
+      setTheme('light');
+    } else {
       document.body.classList.add('dark-theme');
+      document.documentElement.classList.add('dark-theme');
       setTheme('dark');
       if (!storedTheme) localStorage.setItem('theme', 'dark');
-    } else {
-      localStorage.setItem('theme', 'light');
     }
   }, []);
 
