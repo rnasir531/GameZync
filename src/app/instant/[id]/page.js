@@ -1,6 +1,6 @@
 import InstantGameDetailView from '@/components/instant/InstantGameDetailView';
 import db from '@/lib/db';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { slugify } from '@/lib/slug';
 
 export async function generateMetadata({ params }) {
@@ -68,6 +68,11 @@ export default async function InstantGameDetailPage({ params }) {
 
   if (!activeGame) {
     notFound();
+  }
+
+  const cleanSlug = slugify(activeGame.title);
+  if (cleanSlug && cleanParam !== cleanSlug) {
+    redirect(`/instant/${cleanSlug}`);
   }
 
   return (

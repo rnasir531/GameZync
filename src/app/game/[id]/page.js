@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import db from '@/lib/db';
 import GameDetailsView from '@/components/game/GameDetailsView';
 import { slugify } from '@/lib/slug';
@@ -70,6 +70,11 @@ export default async function GameDetails({ params }) {
   const p = await params;
   const game = await fetchGame(p.id);
   if (!game) notFound();
+
+  const cleanSlug = slugify(game.name);
+  if (cleanSlug && decodeURIComponent(p.id).toLowerCase() !== cleanSlug) {
+    redirect(`/game/${cleanSlug}`);
+  }
 
   const gameId = game.id;
 
