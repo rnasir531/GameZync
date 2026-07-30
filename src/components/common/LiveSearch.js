@@ -60,16 +60,18 @@ export default function LiveSearch() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const handleResultClick = (e, url) => {
+  const handleResultClick = (e, result) => {
     e.preventDefault();
     setShowDropdown(false);
     setIsMobileExpanded(false);
     setSearchQuery('');
     
-    if (url.startsWith('http')) {
-      window.open(url, '_blank');
+    const targetUrl = result.type === 'instant' ? `/instant/${result.id}` : (result.url || `/game/${result.id}`);
+    
+    if (targetUrl.startsWith('http')) {
+      window.open(targetUrl, '_blank');
     } else {
-      router.push(url);
+      router.push(targetUrl);
     }
   };
 
@@ -124,7 +126,7 @@ export default function LiveSearch() {
             <ul className="search-results-list">
               {searchResults.map((result, idx) => (
                 <li key={`${result.type}-${result.id}-${idx}`}>
-                  <a href={result.url} className="search-result-item" onClick={(e) => handleResultClick(e, result.url)}>
+                  <a href={result.type === 'instant' ? `/instant/${result.id}` : result.url} className="search-result-item" onClick={(e) => handleResultClick(e, result)}>
                     <img onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop'; }} src={result.image || `https://placehold.co/60x60/1a1d25/555?text=${result.title.charAt(0)}`} alt={result.title} />
                     <div className="result-info">
                       <span className="result-title">{result.title}</span>

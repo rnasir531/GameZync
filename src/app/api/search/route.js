@@ -42,7 +42,7 @@ export async function GET(request) {
       title: i.title,
       image: i.image_url,
       type: 'instant',
-      url: i.embed_url || `/instant-games`
+      url: `/instant/${i.id}`
     }));
 
     // 3. Search Upcoming Games
