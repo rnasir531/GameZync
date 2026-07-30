@@ -88,23 +88,18 @@ export default function InstantGameDetailView({ activeGame, allGames }) {
 
       {/* GAME PLAYER WINDOW HERO */}
       <div className="instant-player-hero" style={{ marginBottom: '30px', background: 'var(--card-bg)', borderRadius: '20px', border: '1px solid var(--border-color)', overflow: 'hidden', boxShadow: '0 15px 40px rgba(0,0,0,0.4)' }}>
-        <div className="player-header" style={{ padding: '20px 24px', background: 'rgba(0,0,0,0.3)', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+        <div className="player-header" style={{ padding: '18px 24px', background: 'var(--card-bg)', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
           <div className="player-title-box" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <h2 style={{ margin: 0, fontSize: '22px', fontWeight: '800', color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <h2 style={{ margin: 0, fontSize: '20px', fontWeight: '800', color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '10px', letterSpacing: '-0.3px' }}>
               <i className="fa-solid fa-gamepad" style={{ color: 'var(--primary-color)' }}></i>
               {activeGame.name || activeGame.title}
             </h2>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-              {activeGame.category && (
-                <span style={{ background: 'rgba(16, 185, 129, 0.15)', color: 'var(--primary-color)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '20px', padding: '4px 14px', fontSize: '12px', fontWeight: '700' }}>
-                  {activeGame.category}
+              {activeGame.category && activeGame.category.split(',').map((cat, idx) => (
+                <span key={idx} style={{ background: 'rgba(16, 185, 129, 0.12)', color: 'var(--primary-color)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '20px', padding: '4px 14px', fontSize: '12px', fontWeight: '700' }}>
+                  {cat.trim()}
                 </span>
-              )}
-              {activeGame.source && (
-                <span style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '20px', padding: '4px 14px', fontSize: '12px', fontWeight: '700' }}>
-                  <i className="fa-solid fa-globe me-1"></i> {activeGame.source}
-                </span>
-              )}
+              ))}
             </div>
           </div>
 
