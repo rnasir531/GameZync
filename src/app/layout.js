@@ -126,6 +126,7 @@ export default async function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${inter.variable} ${jakarta.variable}`}>
       <head>
         <meta httpEquiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https:; script-src-elem 'self' 'unsafe-inline' 'unsafe-eval' blob: https:; worker-src 'self' blob:; frame-src 'self' https: blob:; child-src 'self' https: blob:; default-src 'self' http: https: data: blob: 'unsafe-inline' 'unsafe-eval';" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
         <link rel="icon" type="image/svg+xml" href="/icon.svg" />

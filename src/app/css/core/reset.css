@@ -2,7 +2,15 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body, input, button, select, textarea {
     font-family: var(--font-primary);
+}
+
+/* Ensure FontAwesome icons preserve their font family and render properly */
+i[class*="fa-"], span[class*="fa-"], .fa, .fas, .far, .fal, .fab, .fa-solid, .fa-regular, .fa-brands {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
