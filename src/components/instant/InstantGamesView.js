@@ -14,8 +14,8 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
   
   const [activeGame, setActiveGame] = useState(initialActiveGame);
 
+  const [viewMode, setViewMode] = useState('cards'); // 'cards' or 'list'
   const [categoryFilter, setCategoryFilter] = useState('All');
-  const [sortOrder, setSortOrder] = useState('recent');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
@@ -55,15 +55,6 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
     processedGames = processedGames.filter(g => g.category && g.category.toLowerCase().includes(categoryFilter.toLowerCase()));
   }
 
-  // Sort games based on selected order
-  if (sortOrder === 'asc') {
-    processedGames.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (sortOrder === 'desc') {
-    processedGames.sort((a, b) => b.name.localeCompare(a.name));
-  } else {
-    processedGames.sort((a, b) => b.id - a.id);
-  }
-
   const totalPages = Math.ceil(processedGames.length / itemsPerPage);
   const currentGames = processedGames.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
@@ -85,31 +76,36 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
   return (
     <section className="instant-games-view" id="instant-games-view" style={{ animation: 'fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)' }}>
       
-      {/* HEADER SECTION */}
-      <div className="instant-games-header">
+      {/* HEADER SECTION WITH VIEW SWITCHER */}
+      <div className="instant-games-header" id="instant-games-grid-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', marginBottom: '20px' }}>
         <div>
           <span className="subtitle">No Download Required</span>
           <h2 className="section-title">
             <i className="fa-solid fa-bolt-lightning" style={{ color: 'var(--primary-color)' }}></i>
             &nbsp;{activeGame ? 'More Instant Play Games' : 'Instant Play Games'}
           </h2>
+          <p className="instant-games-desc" style={{ marginTop: '6px' }}>
+            Explore classic &amp; online games — click any game to play instantly in your browser.
+          </p>
         </div>
-        <p className="instant-games-desc">
-          Explore classic &amp; online games — click any game to play instantly in your browser.
-        </p>
-      </div>
 
-      {/* SORT + FILTER ROW */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '12px' }} id="instant-games-grid-title">
-        <div className="sorting-bar" style={{ display: 'flex', background: 'var(--filter-bg)', padding: '4px', borderRadius: '12px', gap: '4px' }}>
-          <button onClick={() => setSortOrder('recent')} className={`sorting-btn ${sortOrder === 'recent' ? 'active' : ''}`} title="Sort Recent">
-            <i className="fa-solid fa-clock-rotate-left"></i> Recent
+        {/* VIEW SWITCHER BAR (CARDS vs LIST) */}
+        <div className="view-switcher-bar" style={{ display: 'flex', background: 'var(--filter-bg)', padding: '4px', borderRadius: '12px', gap: '4px', flexShrink: 0 }}>
+          <button 
+            onClick={() => setViewMode('cards')} 
+            className={`view-switcher-btn ${viewMode === 'cards' ? 'active' : ''}`}
+            title="Cards Grid View"
+            style={{ textDecoration: 'none' }}
+          >
+            <i className="fa-solid fa-table-cells"></i> Cards
           </button>
-          <button onClick={() => setSortOrder('asc')} className={`sorting-btn ${sortOrder === 'asc' ? 'active' : ''}`} title="Sort A-Z (Ascending)">
-            <i className="fa-solid fa-arrow-down-a-z"></i> A-Z
-          </button>
-          <button onClick={() => setSortOrder('desc')} className={`sorting-btn ${sortOrder === 'desc' ? 'active' : ''}`} title="Sort Z-A (Descending)">
-            <i className="fa-solid fa-arrow-up-z-a"></i> Z-A
+          <button 
+            onClick={() => setViewMode('list')} 
+            className={`view-switcher-btn ${viewMode === 'list' ? 'active' : ''}`}
+            title="Horizontal List View"
+            style={{ textDecoration: 'none' }}
+          >
+            <i className="fa-solid fa-list"></i> List
           </button>
         </div>
       </div>
@@ -130,8 +126,8 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
         ))}
       </div>
       
-      {/* GAMES GRID */}
-      <div className="games-grid view-cards-active instant-games-grid-mobile" id="instant-games-grid">
+      {/* GAMES GRID / LIST */}
+      <div className={`games-grid ${viewMode === 'list' ? 'view-list-active' : 'view-cards-active'} instant-games-grid-mobile`} id="instant-games-grid">
         {currentGames.map(game => (
           <div key={game.id} onClick={() => handleSelectGame(game)}>
             <GameCard 
