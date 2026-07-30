@@ -21,7 +21,7 @@ export default function GameCard({ game, isInstantSection = false, isUpcomingSec
   }
 
   const destinationUrl = isInstantSection 
-    ? `/instant?play=${game.id}` 
+    ? `/instant/${game.id}` 
     : (isUpcomingSection ? (game.trailer_url || '#') : `/game/${game.id}`);
   
   const target = isUpcomingSection && game.trailer_url ? '_blank' : '_self';

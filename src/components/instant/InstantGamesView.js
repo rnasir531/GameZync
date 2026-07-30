@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import GameCard from '../common/GameCard';
 import PaginationControls from '../common/PaginationControls';
+import InstantGameDetailView from './InstantGameDetailView';
 
 export default function InstantGamesView({ allGames = [], initialActiveGame = null }) {
   const searchParams = useSearchParams();
@@ -11,8 +12,6 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
   const playId = searchParams.get('play');
   
   const [activeGame, setActiveGame] = useState(initialActiveGame);
-  const [suggestedGames, setSuggestedGames] = useState([]);
-  const iframeRef = useRef(null);
 
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [sortOrder, setSortOrder] = useState('recent');
@@ -27,26 +26,11 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
       const found = allGames.find(g => String(g.id) === String(playId));
       if (found) {
         setActiveGame(found);
-        setTimeout(() => {
-          const playerElem = document.getElementById('instant-player-hero');
-          if (playerElem) {
-            playerElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 100);
       }
+    } else {
+      setActiveGame(null);
     }
   }, [playId, initialActiveGame, allGames]);
-
-  // Generate 10 random suggested games whenever activeGame changes
-  useEffect(() => {
-    if (activeGame && allGames.length > 1) {
-      const candidates = allGames.filter(g => String(g.id) !== String(activeGame.id));
-      const shuffled = [...candidates].sort(() => 0.5 - Math.random());
-      setSuggestedGames(shuffled.slice(0, 10));
-    } else {
-      setSuggestedGames([]);
-    }
-  }, [activeGame, allGames]);
 
   // Extract unique categories dynamically
   const catsSet = new Set(['All']);
@@ -62,20 +46,6 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
 
   const handleSelectGame = (game) => {
     router.push(`/instant/${game.id}`);
-  };
-
-  const handleClosePlayer = () => {
-    setActiveGame(null);
-    router.push('/instant', { scroll: false });
-  };
-
-  const toggleFullscreen = () => {
-    if (!iframeRef.current) return;
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
-    } else {
-      iframeRef.current.requestFullscreen().catch(() => {});
-    }
   };
 
   // Filter games based on selected category
@@ -106,104 +76,14 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
     }
   };
 
+  // If a game is active, render ONLY the dedicated detail view (Player + 2 rows suggested games)
+  if (activeGame) {
+    return <InstantGameDetailView activeGame={activeGame} allGames={allGames} />;
+  }
+
   return (
     <section className="instant-games-view" id="instant-games-view" style={{ animation: 'fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)' }}>
       
-      {/* ACTIVE GAME HERO PLAYER WINDOW */}
-      {activeGame && (
-        <div className="instant-player-hero-container" style={{ marginBottom: '50px' }}>
-          <div className="instant-player-hero" id="instant-player-hero" style={{ marginBottom: '24px' }}>
-            <div className="player-header">
-              <div className="player-title-box">
-                <h3 style={{ margin: 0, fontWeight: '800', color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                  <i className="fa-solid fa-gamepad" style={{ color: 'var(--primary-color)' }}></i>
-                  {activeGame.name || activeGame.title}
-                </h3>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-                  {activeGame.category && (
-                    <span style={{ background: 'rgba(16, 185, 129, 0.15)', color: 'var(--primary-color)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '20px', padding: '4px 12px', fontSize: '12px', fontWeight: '700' }}>
-                      {activeGame.category}
-                    </span>
-                  )}
-                  {activeGame.source && (
-                    <span style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '20px', padding: '4px 12px', fontSize: '12px', fontWeight: '700' }}>
-                      <i className="fa-solid fa-globe me-1"></i> {activeGame.source}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              <div className="player-actions" style={{ display: 'flex', gap: '10px' }}>
-                <button 
-                  onClick={toggleFullscreen} 
-                  className="player-btn fullscreen-btn"
-                  title="Toggle Fullscreen"
-                >
-                  <i className="fa-solid fa-expand"></i> Fullscreen
-                </button>
-                <button 
-                  onClick={handleClosePlayer} 
-                  className="player-btn close-btn"
-                  title="Close Game"
-                >
-                  <i className="fa-solid fa-xmark"></i> Close
-                </button>
-              </div>
-            </div>
-
-            <div className="player-iframe-wrapper" ref={iframeRef}>
-              <iframe
-                src={activeGame.embed_url || activeGame.url}
-                title={activeGame.name || activeGame.title}
-                allow="autoplay; fullscreen; keyboard; gamepad"
-                allowFullScreen
-                className="instant-iframe"
-              />
-            </div>
-
-            {activeGame.description && (
-              <div style={{ padding: '16px 24px', background: 'rgba(0,0,0,0.2)', borderTop: '1px solid rgba(255,255,255,0.05)', color: '#94a3b8', fontSize: '13.5px', lineHeight: '1.6' }}>
-                <p style={{ margin: 0 }}>{activeGame.description}</p>
-              </div>
-            )}
-          </div>
-
-          {/* 2 ROWS OF SUGGESTED RANDOM INSTANT GAMES */}
-          {suggestedGames.length > 0 && (
-            <div className="suggested-instant-games-section" style={{ marginTop: '24px', padding: '24px', background: 'var(--card-bg)', borderRadius: '20px', border: '1px solid var(--border-color)', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
-                <h4 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <i className="fa-solid fa-fire text-danger"></i>
-                  Suggested Instant Games (You Might Also Like)
-                </h4>
-                <button
-                  onClick={() => {
-                    const candidates = allGames.filter(g => String(g.id) !== String(activeGame.id));
-                    const shuffled = [...candidates].sort(() => 0.5 - Math.random());
-                    setSuggestedGames(shuffled.slice(0, 10));
-                  }}
-                  style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'var(--text-color)', borderRadius: '8px', padding: '6px 14px', fontSize: '12.5px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
-                >
-                  <i className="fa-solid fa-shuffle"></i> Refresh Suggestions
-                </button>
-              </div>
-
-              {/* Grid for 2 Rows of Suggested Games */}
-              <div className="games-grid view-cards-active instant-games-grid-mobile">
-                {suggestedGames.map(sGame => (
-                  <div key={sGame.id} onClick={() => handleSelectGame(sGame)} style={{ cursor: 'pointer' }}>
-                    <GameCard 
-                      game={sGame} 
-                      isInstantSection={true} 
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
       {/* HEADER SECTION */}
       <div className="instant-games-header">
         <div>
