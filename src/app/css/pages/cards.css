@@ -156,7 +156,24 @@
   #instant-games-grid,
   .instant-games-grid-mobile {
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    gap: 8px !important;
+  }
+  .game-details {
+    padding: 10px 8px 12px !important;
+  }
+  .game-details h3 {
+    font-size: 13px !important;
+  }
+  .game-details p {
+    font-size: 11px !important;
+  }
+  .play-btn {
+    padding: 6px 8px !important;
+    font-size: 11.5px !important;
+    margin-top: 6px !important;
+  }
+  .game-card-img-wrapper {
+    height: 110px !important;
   }
 }
 
