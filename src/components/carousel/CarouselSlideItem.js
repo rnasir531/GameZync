@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { getGameUrl } from '@/lib/slug';
 
 export default function CarouselSlideItem({ game, index, activeIndex, totalCards, onSelect }) {
   let diff = index - activeIndex;
@@ -34,7 +35,7 @@ export default function CarouselSlideItem({ game, index, activeIndex, totalCards
       <div className="carousel-info">
         <h3>{game.name || game.title}</h3>
         <p>{game.category}</p>
-        <Link href={`/game/${game.id}`} style={{ textDecoration: 'none' }}>
+        <Link href={getGameUrl(game)} style={{ textDecoration: 'none' }}>
           <button className="carousel-play-btn"><i className="fa-solid fa-download"></i> Download Now</button>
         </Link>
       </div>

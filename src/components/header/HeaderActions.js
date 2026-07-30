@@ -28,8 +28,8 @@ export default function HeaderActions({ theme, toggleTheme, onRequestModalOpen }
         headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' }
       });
       const data = await res.json();
-      if (data.success && data.gameId) {
-        window.location.href = `/game/${data.gameId}`;
+      if (data.success && (data.url || data.gameId)) {
+        window.location.href = data.url || `/game/${data.slug || data.gameId}`;
       }
     } catch (err) {
       console.error('Randomizer error:', err);

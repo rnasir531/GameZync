@@ -11,14 +11,14 @@ export function slugify(text) {
 
 export function getGameUrl(game) {
   if (!game || (!game.id && game.id !== 0)) return '/library';
-  const name = game.name || game.title || '';
+  const name = game.name || game.title || game.game_name || '';
   const slug = slugify(name);
   return slug ? `/game/${slug}` : `/game/${game.id}`;
 }
 
 export function getInstantGameUrl(game) {
   if (!game || (!game.id && game.id !== 0)) return '/instant';
-  const title = game.title || game.name || '';
+  const title = game.title || game.name || game.game_name || '';
   const slug = slugify(title);
   return slug ? `/instant/${slug}` : `/instant/${game.id}`;
 }

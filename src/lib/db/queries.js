@@ -42,12 +42,12 @@ export const getAllPublishedGames = () =>
 export const getRandomGame = (excludeId) => {
   if (excludeId) {
     return query(
-      `SELECT id FROM games WHERE status = $1 AND id != $2 ORDER BY RANDOM() LIMIT 1`,
+      `SELECT id, name FROM games WHERE status = $1 AND id != $2 ORDER BY RANDOM() LIMIT 1`,
       [STATUS_PUBLISHED, excludeId]
     );
   }
   return query(
-    `SELECT id FROM games WHERE status = $1 ORDER BY RANDOM() LIMIT 1`,
+    `SELECT id, name FROM games WHERE status = $1 ORDER BY RANDOM() LIMIT 1`,
     [STATUS_PUBLISHED]
   );
 };

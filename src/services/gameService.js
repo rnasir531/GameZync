@@ -26,23 +26,28 @@ import { getCategoryData } from '@/lib/categoryData';
  *  - old id-slug format ("485-ghost-of-tsushima") [backwards compat]
  */
 export async function fetchGameByParam(paramId) {
-  const cleanParam = decodeURIComponent(paramId).toLowerCase().trim();
+  if (!paramId) return null;
+  const cleanParam = decodeURIComponent(String(paramId)).toLowerCase().trim();
   const numericId = parseInt(paramId, 10);
 
   // Fast path: exact numeric ID
-  if (!isNaN(numericId) && String(numericId) === paramId) {
+  if (!isNaN(numericId) && String(numericId) === String(paramId).trim()) {
     const { rows } = await getGameById(numericId);
     if (rows[0]) return rows[0];
   }
 
   // Slug match fallback
   const { rows: allGames } = await getAllPublishedGames();
+  if (!allGames || allGames.length === 0) return null;
+
   return allGames.find((g) => {
+    if (!g.name) return false;
     const s = slugify(g.name);
     return (
       s === cleanParam ||
       String(g.id) === cleanParam ||
-      `${g.id}-${s}` === cleanParam
+      `${g.id}-${s}` === cleanParam ||
+      g.name.toLowerCase().trim() === cleanParam
     );
   });
 }

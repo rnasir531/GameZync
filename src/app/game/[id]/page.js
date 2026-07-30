@@ -4,6 +4,9 @@ import { slugify } from '@/lib/slug';
 import { fetchGameByParam, getSuggestedGames, getEnrichedGame, trackView } from '@/services/gameService';
 import { SITE_NAME, SITE_URL } from '@/config/site';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function generateMetadata({ params }) {
   const p = await params;
   const game = await fetchGameByParam(p.id);
