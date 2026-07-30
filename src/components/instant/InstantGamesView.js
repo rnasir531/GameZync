@@ -99,8 +99,23 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
         </p>
       </div>
 
+      {/* SORT + FILTER ROW */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '12px' }} id="instant-games-grid-title">
+        <div className="sorting-bar" style={{ display: 'flex', background: 'var(--filter-bg)', padding: '4px', borderRadius: '12px', gap: '4px' }}>
+          <button onClick={() => setSortOrder('recent')} className={`sorting-btn ${sortOrder === 'recent' ? 'active' : ''}`} title="Sort Recent">
+            <i className="fa-solid fa-clock-rotate-left"></i> Recent
+          </button>
+          <button onClick={() => setSortOrder('asc')} className={`sorting-btn ${sortOrder === 'asc' ? 'active' : ''}`} title="Sort A-Z (Ascending)">
+            <i className="fa-solid fa-arrow-down-a-z"></i> A-Z
+          </button>
+          <button onClick={() => setSortOrder('desc')} className={`sorting-btn ${sortOrder === 'desc' ? 'active' : ''}`} title="Sort Z-A (Descending)">
+            <i className="fa-solid fa-arrow-up-z-a"></i> Z-A
+          </button>
+        </div>
+      </div>
+
       {/* CATEGORY FILTER BAR */}
-      <div className="instant-filter-bar" id="instant-filter-bar">
+      <div className="instant-filter-bar" id="instant-filter-bar" style={{ marginBottom: '24px' }}>
         {cats.map(cat => (
           <button 
             key={cat}
@@ -113,20 +128,6 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
             {cat}
           </button>
         ))}
-      </div>
-      
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '15px' }} id="instant-games-grid-title">
-        <div className="sorting-bar" style={{ display: 'flex', background: 'var(--filter-bg)', padding: '4px', borderRadius: '12px', gap: '4px' }}>
-          <button onClick={() => setSortOrder('recent')} className={`sorting-btn ${sortOrder === 'recent' ? 'active' : ''}`} title="Sort Recent">
-            <i className="fa-solid fa-clock-rotate-left"></i> Recent
-          </button>
-          <button onClick={() => setSortOrder('asc')} className={`sorting-btn ${sortOrder === 'asc' ? 'active' : ''}`} title="Sort A-Z (Ascending)">
-            <i className="fa-solid fa-arrow-down-a-z"></i> A-Z
-          </button>
-          <button onClick={() => setSortOrder('desc')} className={`sorting-btn ${sortOrder === 'desc' ? 'active' : ''}`} title="Sort Z-A (Descending)">
-            <i className="fa-solid fa-arrow-up-z-a"></i> Z-A
-          </button>
-        </div>
       </div>
       
       {/* GAMES GRID */}
