@@ -28,7 +28,7 @@ export default function GameCardMedia({ coverUrl, title, isInstantSection, isUpc
         alt={title} 
         loading="lazy" 
         decoding="async" 
-        onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/320x180/1a1d25/555?text=${encodeURIComponent(title)}` }}
+        onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop'; }}
       />
 
       {!isInstantSection && (

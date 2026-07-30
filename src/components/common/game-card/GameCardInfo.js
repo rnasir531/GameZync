@@ -1,7 +1,18 @@
 'use client';
 
 export default function GameCardInfo({ game, isInstantSection, isUpcomingSection, releaseYear }) {
-  const title = game.name || game.title || 'Game';
+  let rawTitle = game.name || game.title || 'Game';
+  const title = rawTitle
+    .replace(/^GameBay\s*-\s*Play\s+/i, '')
+    .replace(/^Play\s+/i, '')
+    .replace(/\s*Online$/i, '')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/&#38;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .trim();
 
   return (
     <div className="game-details">

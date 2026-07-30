@@ -111,7 +111,7 @@ export default function InstantGameDetailView({ activeGame, allGames }) {
 
       {/* 2 ROWS OF SUGGESTED INSTANT GAMES ONLY */}
       {suggestedGames.length > 0 && (
-        <div className="suggested-instant-games-section" style={{ padding: '28px', background: 'var(--card-bg)', borderRadius: '20px', border: '1px solid var(--border-color)', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
+        <div className="suggested-instant-games-section" style={{ padding: '24px', background: 'var(--card-bg)', borderRadius: '20px', border: '1px solid var(--border-color)', boxShadow: '0 10px 30px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '22px', flexWrap: 'wrap', gap: '12px' }}>
             <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '800', color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '10px' }}>
               <i className="fa-solid fa-fire text-danger"></i>
@@ -129,10 +129,10 @@ export default function InstantGameDetailView({ activeGame, allGames }) {
             </button>
           </div>
 
-          {/* 2 Rows Grid (10 Games) */}
-          <div className="games-grid view-cards-active instant-games-grid-mobile">
+          {/* 2 Rows Responsive Grid (10 Games Max, No Overflow) */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px', width: '100%', boxSizing: 'border-box' }}>
             {suggestedGames.map(sGame => (
-              <div key={sGame.id} onClick={() => handleSelectSuggested(sGame)} style={{ cursor: 'pointer' }}>
+              <div key={sGame.id} onClick={() => handleSelectSuggested(sGame)} style={{ cursor: 'pointer', minWidth: 0 }}>
                 <GameCard 
                   game={sGame} 
                   isInstantSection={true} 
