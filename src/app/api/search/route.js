@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import db from '@/lib/db';
+import { getGameUrl, getInstantGameUrl } from '@/lib/slug';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request) {
@@ -26,7 +27,7 @@ export async function GET(request) {
       title: g.title,
       image: g.cover_image,
       type: 'game',
-      url: `/game/${g.id}`
+      url: getGameUrl(g)
     }));
 
     // 2. Search Instant Games
@@ -42,7 +43,7 @@ export async function GET(request) {
       title: i.title,
       image: i.image_url,
       type: 'instant',
-      url: `/instant/${i.id}`
+      url: getInstantGameUrl(i)
     }));
 
     // 3. Search Upcoming Games

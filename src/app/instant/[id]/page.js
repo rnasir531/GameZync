@@ -1,15 +1,32 @@
 import InstantGameDetailView from '@/components/instant/InstantGameDetailView';
 import db from '@/lib/db';
 import { notFound } from 'next/navigation';
+import { slugify } from '@/lib/slug';
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const { rows } = await db.query('SELECT title, description FROM instant_games WHERE id = $1', [id]);
-  if (rows.length === 0) return { title: 'Game Not Found' };
+  const numericId = parseInt(id, 10);
+
+  let game = null;
+  if (!isNaN(numericId) && numericId > 0) {
+    const { rows } = await db.query('SELECT title, description FROM instant_games WHERE id = $1', [numericId]);
+    if (rows[0]) game = rows[0];
+  }
+
+  if (!game) {
+    const cleanParam = decodeURIComponent(id).toLowerCase();
+    const { rows } = await db.query('SELECT id, title, description FROM instant_games');
+    game = rows.find(g => {
+      const s = slugify(g.title);
+      return s === cleanParam || String(g.id) === cleanParam || `${g.id}-${s}` === cleanParam;
+    });
+  }
+
+  if (!game) return { title: 'Game Not Found' };
   
   return {
-    title: `${rows[0].title} - Play Instant Online Game | Gamer's Cafe`,
-    description: rows[0].description || `Play ${rows[0].title} online for free instantly on Gamer's Cafe.`,
+    title: `${game.title} - Play Instant Online Game | Gamer's Cafe`,
+    description: game.description || `Play ${game.title} online for free instantly on Gamer's Cafe.`,
   };
 }
 
@@ -34,7 +51,21 @@ export default async function InstantGameDetailPage({ params }) {
     name: g.title
   }));
 
-  const activeGame = allGames.find(g => String(g.id) === String(id));
+  const cleanParam = decodeURIComponent(id).toLowerCase();
+  const numericId = parseInt(id, 10);
+
+  let activeGame = null;
+  if (!isNaN(numericId) && numericId > 0) {
+    activeGame = allGames.find(g => Number(g.id) === numericId);
+  }
+
+  if (!activeGame) {
+    activeGame = allGames.find(g => {
+      const s = slugify(g.title);
+      return s === cleanParam || String(g.id) === cleanParam || `${g.id}-${s}` === cleanParam;
+    });
+  }
+
   if (!activeGame) {
     notFound();
   }

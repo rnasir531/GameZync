@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import GameCardMedia from './game-card/GameCardMedia';
 import GameCardInfo from './game-card/GameCardInfo';
+import { getGameUrl, getInstantGameUrl } from '@/lib/slug';
 
 export default function GameCard({ game, isInstantSection = false, isUpcomingSection = false, matchPercentage = null }) {
   const router = useRouter();
@@ -21,8 +22,8 @@ export default function GameCard({ game, isInstantSection = false, isUpcomingSec
   }
 
   const destinationUrl = isInstantSection 
-    ? `/instant/${game.id}` 
-    : (isUpcomingSection ? (game.trailer_url || '#') : `/game/${game.id}`);
+    ? getInstantGameUrl(game) 
+    : (isUpcomingSection ? (game.trailer_url || '#') : getGameUrl(game));
   
   const target = isUpcomingSection && game.trailer_url ? '_blank' : '_self';
 

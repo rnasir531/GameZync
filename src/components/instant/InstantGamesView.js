@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import GameCard from '../common/GameCard';
 import PaginationControls from '../common/PaginationControls';
 import InstantGameDetailView from './InstantGameDetailView';
+import { getInstantGameUrl } from '@/lib/slug';
 
 export default function InstantGamesView({ allGames = [], initialActiveGame = null }) {
   const searchParams = useSearchParams();
@@ -45,7 +46,7 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
   const cats = Array.from(catsSet);
 
   const handleSelectGame = (game) => {
-    router.push(`/instant/${game.id}`);
+    router.push(getInstantGameUrl(game));
   };
 
   // Filter games based on selected category

@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import GameCard from '../common/GameCard';
 import { useRouter } from 'next/navigation';
+import { getInstantGameUrl } from '@/lib/slug';
 
 export default function InstantGameDetailView({ activeGame, allGames }) {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function InstantGameDetailView({ activeGame, allGames }) {
   };
 
   const handleSelectSuggested = (game) => {
-    router.push(`/instant/${game.id}`);
+    router.push(getInstantGameUrl(game));
   };
 
   const playUrl = activeGame?.embed_url || activeGame?.url || '';

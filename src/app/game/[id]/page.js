@@ -1,18 +1,49 @@
 import { notFound } from 'next/navigation';
 import db from '@/lib/db';
 import GameDetailsView from '@/components/game/GameDetailsView';
+import { slugify } from '@/lib/slug';
+
+async function fetchGame(paramId) {
+  const numericId = parseInt(paramId, 10);
+  
+  if (!isNaN(numericId) && numericId > 0) {
+    const { rows } = await db.query(`
+      SELECT g.*, COALESCE(STRING_AGG(c.name, ', '), g.category) AS category
+      FROM games g
+      LEFT JOIN game_categories gc ON g.id = gc.game_id
+      LEFT JOIN categories c ON gc.category_id = c.id
+      WHERE g.id = $1
+      GROUP BY g.id
+    `, [numericId]);
+    if (rows[0]) return rows[0];
+  }
+
+  // Fallback slug match
+  const cleanParam = decodeURIComponent(paramId).toLowerCase();
+  const { rows: allGames } = await db.query(`
+    SELECT g.*, COALESCE(STRING_AGG(c.name, ', '), g.category) AS category
+    FROM games g
+    LEFT JOIN game_categories gc ON g.id = gc.game_id
+    LEFT JOIN categories c ON gc.category_id = c.id
+    GROUP BY g.id
+  `);
+
+  return allGames.find(g => {
+    const s = slugify(g.name);
+    return s === cleanParam || String(g.id) === cleanParam || `${g.id}-${s}` === cleanParam;
+  });
+}
 
 export async function generateMetadata({ params }) {
   const p = await params;
-  const { rows } = await db.query(`SELECT name, cover_image, description FROM games WHERE id = $1 LIMIT 1`, [parseInt(p.id)]);
-  if (!rows[0]) return { title: 'Game Not Found' };
+  const game = await fetchGame(p.id);
+  if (!game) return { title: 'Game Not Found' };
   
-  const game = rows[0];
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-  const desc = game.description ? game.description.substring(0, 155) + '...' : `Download ${game.name} for free on GameZync.`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://game-zync.vercel.app';
+  const desc = game.description ? game.description.substring(0, 155) + '...' : `Download ${game.name} for free on Gamer's Cafe.`;
   
   return {
-    title: `${game.name} - GameZync`,
+    title: `${game.name} - Gamer's Cafe`,
     description: desc,
     openGraph: {
       title: `${game.name} - Free PC Download`,
@@ -35,22 +66,11 @@ export async function generateMetadata({ params }) {
 
 export default async function GameDetails({ params }) {
   const p = await params;
-  const gameId = parseInt(p.id);
-
-  // Single query: game + joined categories
-  const { rows } = await db.query(`
-    SELECT g.*, COALESCE(STRING_AGG(c.name, ', '), g.category) AS category
-    FROM games g
-    LEFT JOIN game_categories gc ON g.id = gc.game_id
-    LEFT JOIN categories c ON gc.category_id = c.id
-    WHERE g.id = $1
-    GROUP BY g.id
-  `, [gameId]);
-
-  const game = rows[0];
+  const game = await fetchGame(p.id);
   if (!game) notFound();
 
-  // Fetch category icons from categories database table + getCategoryData fallback
+  const gameId = game.id;
+
   let catDbMap = {};
   try {
     const { rows: dbCats } = await db.query(`SELECT * FROM categories`);
@@ -59,9 +79,7 @@ export default async function GameDetails({ params }) {
         catDbMap[c.name.trim().toLowerCase()] = c.icon || c.icon_class;
       }
     });
-  } catch (err) {
-    // Fallback gracefully
-  }
+  } catch (err) {}
 
   const { getCategoryData } = await import('@/lib/categoryData');
   const categoryNames = game.category ? game.category.split(',').map(c => c.trim()).filter(Boolean) : [];
@@ -79,10 +97,8 @@ export default async function GameDetails({ params }) {
     categoryList
   };
 
-  // Increment view count fire-and-forget (non-blocking — page loads instantly)
   db.query(`UPDATE games SET views = views + 1 WHERE id = $1`, [gameId]).catch(() => {});
 
-  // Suggested games — fetch 5 games for laptop 5-column layout
   const { rows: suggestedGamesData } = await db.query(`
     SELECT id, name, cover_image, category, release_year
     FROM games
