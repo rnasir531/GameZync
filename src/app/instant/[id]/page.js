@@ -5,16 +5,16 @@ import { slugify } from '@/lib/slug';
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
+  const cleanParam = decodeURIComponent(id).toLowerCase().trim();
   const numericId = parseInt(id, 10);
 
   let game = null;
-  if (!isNaN(numericId) && numericId > 0) {
+  if (!isNaN(numericId) && String(numericId) === id) {
     const { rows } = await db.query('SELECT title, description FROM instant_games WHERE id = $1', [numericId]);
     if (rows[0]) game = rows[0];
   }
 
   if (!game) {
-    const cleanParam = decodeURIComponent(id).toLowerCase();
     const { rows } = await db.query('SELECT id, title, description FROM instant_games');
     game = rows.find(g => {
       const s = slugify(g.title);
@@ -51,11 +51,11 @@ export default async function InstantGameDetailPage({ params }) {
     name: g.title
   }));
 
-  const cleanParam = decodeURIComponent(id).toLowerCase();
+  const cleanParam = decodeURIComponent(id).toLowerCase().trim();
   const numericId = parseInt(id, 10);
 
   let activeGame = null;
-  if (!isNaN(numericId) && numericId > 0) {
+  if (!isNaN(numericId) && String(numericId) === id) {
     activeGame = allGames.find(g => Number(g.id) === numericId);
   }
 

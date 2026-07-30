@@ -4,9 +4,11 @@ import GameDetailsView from '@/components/game/GameDetailsView';
 import { slugify } from '@/lib/slug';
 
 async function fetchGame(paramId) {
+  const cleanParam = decodeURIComponent(paramId).toLowerCase().trim();
+
+  // If numeric ID exact match
   const numericId = parseInt(paramId, 10);
-  
-  if (!isNaN(numericId) && numericId > 0) {
+  if (!isNaN(numericId) && String(numericId) === paramId) {
     const { rows } = await db.query(`
       SELECT g.*, COALESCE(STRING_AGG(c.name, ', '), g.category) AS category
       FROM games g
@@ -18,8 +20,7 @@ async function fetchGame(paramId) {
     if (rows[0]) return rows[0];
   }
 
-  // Fallback slug match
-  const cleanParam = decodeURIComponent(paramId).toLowerCase();
+  // Fetch all games to match by pure slug or ID-slug
   const { rows: allGames } = await db.query(`
     SELECT g.*, COALESCE(STRING_AGG(c.name, ', '), g.category) AS category
     FROM games g
@@ -41,6 +42,7 @@ export async function generateMetadata({ params }) {
   
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://game-zync.vercel.app';
   const desc = game.description ? game.description.substring(0, 155) + '...' : `Download ${game.name} for free on Gamer's Cafe.`;
+  const cleanSlug = slugify(game.name);
   
   return {
     title: `${game.name} - Gamer's Cafe`,
@@ -48,7 +50,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `${game.name} - Free PC Download`,
       description: desc,
-      url: `${siteUrl}/game/${p.id}`,
+      url: `${siteUrl}/game/${cleanSlug || game.id}`,
       images: game.cover_image ? [{ url: game.cover_image }] : [],
       type: 'website',
     },
@@ -59,7 +61,7 @@ export async function generateMetadata({ params }) {
       images: game.cover_image ? [game.cover_image] : [],
     },
     alternates: {
-      canonical: `/game/${p.id}`,
+      canonical: `/game/${cleanSlug || game.id}`,
     }
   };
 }
