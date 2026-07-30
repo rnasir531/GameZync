@@ -35,6 +35,41 @@ export default function InstantGameDetailView({ activeGame, allGames }) {
   return (
     <section className="instant-game-detail-container" style={{ animation: 'fadeInUp 0.5s ease', maxWidth: '1280px', margin: '0 auto', padding: '20px 15px' }}>
       
+      <style>{`
+        .suggested-grid-responsive {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 16px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        @media (max-width: 1200px) {
+          .suggested-grid-responsive {
+            grid-template-columns: repeat(4, 1fr);
+          }
+        }
+        @media (max-width: 900px) {
+          .suggested-grid-responsive {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+        @media (max-width: 640px) {
+          .suggested-grid-responsive {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+          }
+          .player-header {
+            padding: 14px 16px !important;
+          }
+          .player-header h2 {
+            font-size: 17px !important;
+          }
+          .suggested-instant-games-section {
+            padding: 16px !important;
+          }
+        }
+      `}</style>
+
       {/* Back Button */}
       <div style={{ marginBottom: '20px' }}>
         <Link
@@ -82,7 +117,7 @@ export default function InstantGameDetailView({ activeGame, allGames }) {
         </div>
 
         {/* IFRAME WRAPPER WITH LOADING SPINNER OVERLAY */}
-        <div className="player-iframe-wrapper" ref={iframeRef} style={{ position: 'relative', width: '100%', aspectRatio: '16/9', minHeight: '520px', background: '#090d16' }}>
+        <div className="player-iframe-wrapper" ref={iframeRef} style={{ position: 'relative', width: '100%', aspectRatio: '16/9', minHeight: '320px', maxHeight: '80vh', background: '#090d16' }}>
           {isLoadingFrame && (
             <div style={{ position: 'absolute', inset: 0, background: '#090d16', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '14px', zIndex: 10 }}>
               <div style={{ width: '48px', height: '48px', border: '4px solid rgba(16,185,129,0.2)', borderTopColor: '#10b981', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
@@ -98,7 +133,7 @@ export default function InstantGameDetailView({ activeGame, allGames }) {
             allowFullScreen
             referrerPolicy="no-referrer-when-downgrade"
             onLoad={() => setIsLoadingFrame(false)}
-            style={{ width: '100%', height: '100%', border: 'none', minHeight: '520px' }}
+            style={{ width: '100%', height: '100%', border: 'none', minHeight: '320px' }}
           />
         </div>
 
@@ -129,8 +164,8 @@ export default function InstantGameDetailView({ activeGame, allGames }) {
             </button>
           </div>
 
-          {/* 2 Rows Responsive Grid (10 Games Max, No Overflow) */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px', width: '100%', boxSizing: 'border-box' }}>
+          {/* 2 Rows Responsive Grid (5-col Desktop, 4-col Laptop, 3-col Tablet, 2-col Mobile) */}
+          <div className="suggested-grid-responsive">
             {suggestedGames.map(sGame => (
               <div key={sGame.id} onClick={() => handleSelectSuggested(sGame)} style={{ cursor: 'pointer', minWidth: 0 }}>
                 <GameCard 
