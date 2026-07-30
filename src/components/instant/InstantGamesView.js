@@ -94,7 +94,7 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
           </h2>
         </div>
         <p className="instant-games-desc">
-          {allGames.length}+ classic &amp; online games — click any game to play instantly in your browser.
+          Explore classic &amp; online games — click any game to play instantly in your browser.
         </p>
       </div>
 
@@ -114,11 +114,7 @@ export default function InstantGamesView({ allGames = [], initialActiveGame = nu
         ))}
       </div>
       
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '15px' }} id="instant-games-grid-title">
-        <p className="instant-count-label" id="instant-count-label" style={{ margin: 0, fontSize: '14px' }}>
-          Showing <strong>{currentGames.length}</strong> of <strong>{processedGames.length}</strong> games
-        </p>
-        
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '15px' }} id="instant-games-grid-title">
         <div className="sorting-bar" style={{ display: 'flex', background: 'var(--filter-bg)', padding: '4px', borderRadius: '12px', gap: '4px' }}>
           <button onClick={() => setSortOrder('recent')} className={`sorting-btn ${sortOrder === 'recent' ? 'active' : ''}`} title="Sort Recent">
             <i className="fa-solid fa-clock-rotate-left"></i> Recent
