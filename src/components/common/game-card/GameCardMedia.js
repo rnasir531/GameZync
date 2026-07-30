@@ -1,8 +1,10 @@
 'use client';
 
+import { getOriginalGameImage } from '@/lib/gameImageMap';
+
 export function normalizeImageUrl(url, title = 'Game') {
   if (!url || typeof url !== 'string' || !url.trim()) {
-    return `https://placehold.co/600x400/0f172a/10b981?text=${encodeURIComponent(title)}`;
+    return getOriginalGameImage({ title });
   }
   let clean = url.trim();
   if (clean.startsWith('//')) {
@@ -46,7 +48,7 @@ export default function GameCardMedia({ coverUrl, title, isInstantSection, isUpc
         decoding="async" 
         onError={(e) => { 
           e.target.onerror = null; 
-          e.target.src = `https://placehold.co/600x400/0f172a/10b981?text=${encodeURIComponent(title || 'Game')}`; 
+          e.target.src = getOriginalGameImage({ title: title || 'Game' }); 
         }}
       />
 
