@@ -127,7 +127,7 @@ export default function LiveSearch() {
               {searchResults.map((result, idx) => (
                 <li key={`${result.type}-${result.id}-${idx}`}>
                   <a href={result.type === 'instant' ? `/instant/${result.id}` : result.url} className="search-result-item" onClick={(e) => handleResultClick(e, result)}>
-                    <img onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop'; }} src={result.image || `https://placehold.co/60x60/1a1d25/555?text=${result.title.charAt(0)}`} alt={result.title} />
+                    <img onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/100x100/0f172a/10b981?text=${encodeURIComponent(result.title ? result.title.charAt(0) : 'G')}`; }} src={result.image || `https://placehold.co/60x60/1a1d25/555?text=${result.title.charAt(0)}`} alt={result.title} />
                     <div className="result-info">
                       <span className="result-title">{result.title}</span>
                       <span className={`result-badge badge-${result.type}`}>

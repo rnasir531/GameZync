@@ -1,6 +1,22 @@
 'use client';
 
+export function normalizeImageUrl(url, title = 'Game') {
+  if (!url || typeof url !== 'string' || !url.trim()) {
+    return `https://placehold.co/600x400/0f172a/10b981?text=${encodeURIComponent(title)}`;
+  }
+  let clean = url.trim();
+  if (clean.startsWith('//')) {
+    return `https:${clean}`;
+  }
+  if (clean.startsWith('http://')) {
+    return clean.replace(/^http:\/\//i, 'https://');
+  }
+  return clean;
+}
+
 export default function GameCardMedia({ coverUrl, title, isInstantSection, isUpcomingSection, releaseYear, matchPercentage }) {
+  const finalUrl = normalizeImageUrl(coverUrl, title);
+
   let badgeColor = '#10b981';
   let badgeText = 'Smooth';
 
@@ -24,11 +40,14 @@ export default function GameCardMedia({ coverUrl, title, isInstantSection, isUpc
   return (
     <div className="game-card-img-wrapper">
       <img 
-        src={coverUrl} 
+        src={finalUrl} 
         alt={title} 
         loading="lazy" 
         decoding="async" 
-        onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop'; }}
+        onError={(e) => { 
+          e.target.onerror = null; 
+          e.target.src = `https://placehold.co/600x400/0f172a/10b981?text=${encodeURIComponent(title || 'Game')}`; 
+        }}
       />
 
       {!isInstantSection && (

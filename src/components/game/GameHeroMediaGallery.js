@@ -34,7 +34,7 @@ export default function GameHeroMediaGallery({ game }) {
           <img 
             src={allMedia[selectedIndex] || coverImage} 
             alt={game.name} 
-            onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop'; }}
+            onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/1200x600/0f172a/10b981?text=${encodeURIComponent(game.name || 'Game')}`; }}
             className={isFading ? 'fading' : ''}
           />
           {game.is_featured === 1 && (
