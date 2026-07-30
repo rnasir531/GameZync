@@ -51,13 +51,12 @@ export async function generateMetadata() {
     keywords: keywords,
     icons: {
       icon: [
-        { url: '/favicon.ico', type: 'image/x-icon' },
-        { url: '/favicon.png', type: 'image/png' },
-        { url: '/gamezync-logo.png', type: 'image/png' },
-        { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+        { url: '/favicon.png?v=2', type: 'image/png' },
+        { url: '/icon-192.png?v=2', sizes: '192x192', type: 'image/png' },
+        { url: '/icon-512.png?v=2', sizes: '512x512', type: 'image/png' },
       ],
-      shortcut: '/favicon.ico',
-      apple: '/icon-512.png',
+      shortcut: '/favicon.png?v=2',
+      apple: '/apple-icon.png?v=2',
     },
     robots: {
       index: true,
