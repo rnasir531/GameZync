@@ -46,6 +46,7 @@ export default function GameCardMedia({ coverUrl, title, isInstantSection, isUpc
         alt={title} 
         loading="lazy" 
         decoding="async" 
+        referrerPolicy="no-referrer"
         onError={(e) => { 
           e.target.onerror = null; 
           e.target.src = getOriginalGameImage({ title: title || 'Game' }); 

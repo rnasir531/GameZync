@@ -20,6 +20,7 @@ export default function GameSidebarThumbnails({ sidebarMedia, handleSelectImage,
             <img 
               src={item.url} 
               alt={`${gameName} Screenshot ${i + 1}`}
+              referrerPolicy="no-referrer"
               onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop'; }}
               loading="lazy"
             />

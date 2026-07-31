@@ -34,6 +34,7 @@ export default function GameHeroMediaGallery({ game }) {
           <img 
             src={allMedia[selectedIndex] || coverImage} 
             alt={game.name} 
+            referrerPolicy="no-referrer"
             onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/1200x600/0f172a/10b981?text=${encodeURIComponent(game.name || 'Game')}`; }}
             className={isFading ? 'fading' : ''}
           />

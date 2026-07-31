@@ -27,6 +27,7 @@ export default function CarouselSlideItem({ game, index, activeIndex, totalCards
         alt={game.name || game.title} 
         decoding={index === 0 ? "async" : "auto"} 
         loading={index === 0 ? "eager" : "lazy"} 
+        referrerPolicy="no-referrer"
         onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/1200x500/1a1d25/555?text=${encodeURIComponent(game.name || game.title || 'Game')}` }}
       />
       <div className="carousel-badge">
