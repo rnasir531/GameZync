@@ -53,9 +53,15 @@ export default function GameCardMedia({ coverUrl, title, isInstantSection, isUpc
         }}
       />
 
-      {!isInstantSection && (
-        <span className="game-badge">{isUpcomingSection ? 'Coming Soon' : releaseYear}</span>
-      )}
+      <span className="game-badge" style={isInstantSection ? { background: 'rgba(16, 185, 129, 0.22)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.4)', fontWeight: '700' } : {}}>
+        {isInstantSection ? (
+          <><i className="fa-solid fa-bolt-lightning" style={{ marginRight: '4px', fontSize: '10px' }}></i> Online Game</>
+        ) : isUpcomingSection ? (
+          'Coming Soon'
+        ) : (
+          releaseYear
+        )}
+      </span>
       
       {matchPercentage !== null && matchPercentage !== undefined && (
         <div className="match-badge-sleek" style={{ background: badgeColor }}>
