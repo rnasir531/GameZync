@@ -23,6 +23,7 @@ export default async function InstantGames() {
         games={instantGames}
         showSwitcher={false}
         viewAllLink="/instant"
+        isInstantSection={true}
       />
     );
   } catch (err) {
