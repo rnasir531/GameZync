@@ -63,6 +63,44 @@ export default function DownloadTimerClient({ game, type, timestamp, token }) {
           <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="huge-download-btn" style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', animation: 'pulse 2s infinite' }}>
             <i className="fa-solid fa-download"></i> Click Here to Download
           </a>
+
+          {/* Alternative Link & Report Dead Link Actions */}
+          <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <Link 
+                href={`/download/${game.id}?type=${type === 'torrent' ? 'direct' : 'torrent'}`}
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.15)', color: '#cbd5e1', padding: '8px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', textDecoration: 'none' }}
+              >
+                <i className={`fa-solid ${type === 'torrent' ? 'fa-bolt' : 'fa-magnet'}`}></i> Switch to {type === 'torrent' ? 'Direct' : 'Torrent'} Download
+              </Link>
+              
+              <button
+                type="button"
+                onClick={async (e) => {
+                  try {
+                    e.currentTarget.disabled = true;
+                    e.currentTarget.innerText = 'Reporting...';
+                    const res = await fetch('/api/reports', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ game_id: game.id })
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                      alert('🚩 Report submitted! Admin has been notified to re-upload / fix this game link.');
+                    } else {
+                      alert(data.error || 'Failed to submit report.');
+                    }
+                  } catch (err) {
+                    alert('Could not submit report.');
+                  }
+                }}
+                style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#f87171', padding: '8px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}
+              >
+                <i className="fa-solid fa-flag"></i> Link Dead? Report to Admin
+              </button>
+            </div>
+          </div>
         </div>
       ) : (
         <div style={{ width: '100%' }}>

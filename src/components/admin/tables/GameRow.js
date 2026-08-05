@@ -167,6 +167,38 @@ export default function GameRow({ game, row, toggleFeatured, deleteGame, confirm
               </button>
             )}
 
+            <button
+              onClick={async (e) => {
+                const btn = e.currentTarget;
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+                try {
+                  const res = await fetch('/api/admin/rescrape', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ game_id: item.id })
+                  });
+                  const data = await res.json();
+                  if (res.ok) {
+                    alert(data.message || 'Links updated!');
+                    window.location.reload();
+                  } else {
+                    alert(data.error || 'Re-scrape failed.');
+                  }
+                } catch (err) {
+                  alert('Re-scrape failed.');
+                } finally {
+                  btn.disabled = false;
+                  btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i>';
+                }
+              }}
+              className="btn btn-sm"
+              title="Auto Re-Scrape Fresh Download Links from Source"
+              style={{ color: '#06b6d4', border: '1px solid rgba(6, 182, 212, 0.2)', background: 'rgba(6, 182, 212, 0.05)', padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s' }}
+            >
+              <i className="fa-solid fa-arrows-rotate"></i>
+            </button>
+
             <Link href={`/admin/games/edit/${item.id}`} className='btn btn-sm' title="Edit Game Specs & Upload Links" style={{ color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.2)', background: 'rgba(16, 185, 129, 0.05)', padding: '6px 12px', borderRadius: '8px', textDecoration: 'none', transition: 'all 0.2s' }}
               onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(16, 185, 129, 0.1)'; }}
               onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(16, 185, 129, 0.05)'; }}>

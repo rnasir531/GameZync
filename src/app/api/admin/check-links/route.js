@@ -56,7 +56,7 @@ async function checkGofileLink(url) {
     if (pageRes) {
       if (pageRes.status === 404 || pageRes.status === 410) return false;
       const html = await pageRes.text().catch(() => '');
-      if (html.includes('error-notFound') || html.includes('This upload does not exist') || html.includes('fileNotExisting')) {
+      if (html.includes('error-notFound') || html.includes('This upload does not exist') || html.includes('fileNotExisting') || html.includes('This content does not exist') || html.includes('could not be found')) {
         return false; // DEAD LINK!
       }
     }
