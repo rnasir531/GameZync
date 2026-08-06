@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
-import { scrapeSteamRIP } from '@/lib/scrapers/steamrip';
-import { slugify } from '@/lib/slug';
+import { autoRescrapeFreshLink } from '@/lib/scrapers/autoRescrape';
 
 export async function POST(request) {
   try {
@@ -17,43 +16,11 @@ export async function POST(request) {
     }
 
     const game = rows[0];
-    const gameSlug = slugify(game.name);
-    
-    // Construct probable SteamRIP URLs
-    const probableUrls = [
-      `https://steamrip.com/${gameSlug}-free-download/`,
-      `https://steamrip.com/${gameSlug}-free/`,
-      `https://steamrip.com/${gameSlug}/`
-    ];
+    const result = await autoRescrapeFreshLink(game.id, game.name);
 
-    let scrapedData = null;
-    for (const url of probableUrls) {
-      try {
-        const result = await scrapeSteamRIP(url);
-        if (result && (result.gofileLink || result.torrentLink)) {
-          scrapedData = result;
-          break;
-        }
-      } catch (e) {
-        // try next url
-      }
-    }
-
-    if (!scrapedData || (!scrapedData.gofileLink && !scrapedData.torrentLink)) {
+    if (!result) {
       return NextResponse.json({ error: `Could not auto re-scrape fresh links for "${game.name}". Please edit manually.` }, { status: 400 });
     }
-
-    const directLink = scrapedData.gofileLink || '';
-    const torrentLink = scrapedData.torrentLink || '';
-
-    // Update DB with fresh download links and clear broken status
-    await pool.query(`
-      UPDATE games 
-      SET direct_download_link = COALESCE(NULLIF($1, ''), direct_download_link),
-          torrent_link = COALESCE(NULLIF($2, ''), torrent_link),
-          is_broken = 0
-      WHERE id = $3
-    `, [directLink, torrentLink, game.id]);
 
     return NextResponse.json({
       success: true,

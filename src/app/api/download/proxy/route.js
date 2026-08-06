@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import db from '@/lib/db';
+import { checkGofileIsDead, autoRescrapeFreshLink } from '@/lib/scrapers/autoRescrape';
 export const dynamic = 'force-dynamic';
 
 const SECRET = process.env.DOWNLOAD_SECRET || 'playfusion-secure-download-secret-2026';
@@ -46,21 +47,31 @@ export async function GET(request) {
     
     if (rows.length === 0) {
       return new NextResponse('Game not found in database', { status: 404 });
+    }    const game = rows[0];
+    let finalUrl = type === 'torrent' ? game.torrent_link : game.direct_download_link;
+
+    // ── AUTOMATIC ON-THE-FLY HEALER FOR GOFILE 404 LINKS ──
+    if (type === 'direct' && finalUrl && finalUrl.toLowerCase().includes('gofile.io')) {
+      const isDead = await checkGofileIsDead(finalUrl);
+      if (isDead) {
+        console.warn(`[Auto-Repair] Gofile 404 detected for "${game.name}"! Auto re-scraping fresh link on-the-fly...`);
+        const freshData = await autoRescrapeFreshLink(game.id, game.name);
+        if (freshData && (freshData.directLink || freshData.torrentLink)) {
+          finalUrl = freshData.directLink || freshData.torrentLink;
+          console.log(`[Auto-Repair] Successfully fetched new working link for "${game.name}": ${finalUrl}`);
+        }
+      }
     }
 
-    const game = rows[0];
-    const url = type === 'torrent' ? game.torrent_link : game.direct_download_link;
-
-    if (!url) {
+    if (!finalUrl) {
       return new NextResponse('Download link is not available.', { status: 404 });
     }
 
     // Update download count statistics asynchronously
     db.query('UPDATE games SET downloads = downloads + 1 WHERE id = $1', [parseInt(id)]).catch(() => {});
 
-    // Redirect to the actual download link securely
-    // This ensures the user must go through our 30s timer and token check
-    return NextResponse.redirect(url);
+    // Redirect to the working download link securely
+    return NextResponse.redirect(finalUrl);
 
   } catch (error) {
     console.error('Proxy download error:', error);
