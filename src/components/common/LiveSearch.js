@@ -31,6 +31,18 @@ export default function LiveSearch() {
     }
   }, [isMobileExpanded]);
 
+  // Global Ctrl+K / Cmd+K keyboard shortcut
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Debounced Search API call
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -104,6 +116,11 @@ export default function LiveSearch() {
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => { if(searchResults.length > 0) setShowDropdown(true); }}
         />
+        {!searchQuery && (
+          <span className="search-shortcut-badge d-none d-md-inline-flex" style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '2px 6px', fontSize: '10.5px', fontWeight: '700', color: 'var(--text-muted)', pointerEvents: 'none', letterSpacing: '0.5px' }}>
+            Ctrl K
+          </span>
+        )}
         {isSearching ? (
           <i className="fas fa-spinner fa-spin search-status-icon"></i>
         ) : (

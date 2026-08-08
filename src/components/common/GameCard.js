@@ -1,4 +1,6 @@
 'use client';
+
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import GameCardMedia from './game-card/GameCardMedia';
 import GameCardInfo from './game-card/GameCardInfo';
@@ -40,10 +42,13 @@ export default function GameCard({ game, isInstantSection = false, isUpcomingSec
   const title = game.name || game.title || 'Game';
 
   return (
-    <div 
+    <motion.div 
+      whileHover={{ y: -6, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
       className={`game-card ${isInstantSection ? 'instant-card' : ''} ${isUpcomingSection ? 'upcoming-card' : ''}`}
       onClick={handleClick}
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: 'pointer', willChange: 'transform' }}
       data-tag={game.tag || ''}
     >
       <GameCardMedia 
@@ -60,6 +65,6 @@ export default function GameCard({ game, isInstantSection = false, isUpcomingSec
         isUpcomingSection={isUpcomingSection} 
         releaseYear={releaseYear} 
       />
-    </div>
+    </motion.div>
   );
 }
