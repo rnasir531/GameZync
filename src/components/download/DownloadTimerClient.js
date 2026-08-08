@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { fireConfetti } from '@/components/ui/ConfettiTrigger';
 
 export default function DownloadTimerClient({ game, type, timestamp, token }) {
   const [timeLeft, setTimeLeft] = useState(15);
@@ -22,15 +23,14 @@ export default function DownloadTimerClient({ game, type, timestamp, token }) {
 
   const fetchDownloadLink = () => {
     setIsLoading(true);
-    // Instead of fetching the URL from the server and exposing it to the client,
-    // we set the URL to our secure proxy endpoint. This implements the 'cURL method'
-    // where the server fetches the file and streams it directly to the user.
     const proxyUrl = `/api/download/proxy?id=${game.id}&type=${type}&timestamp=${timestamp}&token=${token}`;
     
-    // Slight delay to simulate generation and allow UI to transition smoothly
     setTimeout(() => {
       setDownloadUrl(proxyUrl);
       setIsLoading(false);
+      try {
+        fireConfetti();
+      } catch (e) {}
     }, 500);
   };
 
